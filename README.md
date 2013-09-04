@@ -7,7 +7,7 @@ one TV app
 Developed By
 ============
 
-* Cangol - <wxw404 AT gmail.com>
+* Cangol - <wxw404@gmail.com>
  
 
 
