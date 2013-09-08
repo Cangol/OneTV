@@ -16,14 +16,14 @@
 
 package mobi.cangol.mobile.onetv;
 
-import com.cangol.mobile.logging.Log;
-
+import io.vov.vitamio.LibsChecker;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.FrameLayout;
+
+import com.cangol.mobile.logging.Log;
 
 public class MainActivity extends BaseFragmentActivity {
 	private DrawerLayout mDrawerLayout;
@@ -34,6 +34,8 @@ public class MainActivity extends BaseFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		if (!LibsChecker.checkVitamioLibs(this))
+			return;
 		Log.setLogLevelFormat(android.util.Log.INFO, false);
 		findViews();
 		initViews();
@@ -61,6 +63,20 @@ public class MainActivity extends BaseFragmentActivity {
 
 		});
 	}
+	
+	@Override
+	public void onBackPressed() {
+		if(mDrawerLayout.isDrawerOpen(leftFrame)){
+			mDrawerLayout.closeDrawer(leftFrame);
+			return;
+		}else{
+			PlayVideoFragment playVideoFragment=(PlayVideoFragment) this.getSupportFragmentManager().findFragmentByTag("PlayVideoFragment");
+			if(playVideoFragment.onBackPressed()){
+				return;
+			}
+		}
+		super.onBackPressed();
+	}
 
 	private void playVideoFragment(String url) {
 		Log.d("playVideo url=" + url);
@@ -70,6 +86,6 @@ public class MainActivity extends BaseFragmentActivity {
 		playVideoFragment.setArguments(bundle);
 		FragmentManager fragmentManager = this.getSupportFragmentManager();
 		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, playVideoFragment).commit();
+				.replace(R.id.content_frame, playVideoFragment,"PlayVideoFragment").commit();
 	}
 }

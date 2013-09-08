@@ -54,7 +54,7 @@ public class VideoTvAdapter extends ArrayAdapter<VideoTv>{
 			convertView.setTag(holder);  
 		}
 		
-		holder.name.setText(item.getName());
+		holder.name.setText("CCTV-"+(position+1));
 		holder.desc.setText(item.getDesc());
 		holder.icon.setImageResource(R.drawable.ic_launcher);
 		if(item.isFavorite()){

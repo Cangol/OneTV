@@ -25,7 +25,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -36,7 +36,7 @@ import android.widget.TextView;
 public class PlayVideoFragment extends BaseFragment {
 	private String url="";
 	private VideoView mVideoView;
-	private RelativeLayout mCacheLayout;
+	private LinearLayout mCacheLayout;
 	private TextView mBufferPercentTv;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class PlayVideoFragment extends BaseFragment {
 	@Override
 	protected void findViews(View view) {
 		mVideoView = (VideoView) view.findViewById(R.id.play_videoview);
-		mCacheLayout= (RelativeLayout) view.findViewById(R.id.play_layout_cache);
+		mCacheLayout= (LinearLayout) view.findViewById(R.id.play_layout_cache);
 		mBufferPercentTv= (TextView) view.findViewById(R.id.play_buffer_percent);
 	}
 
@@ -68,6 +68,7 @@ public class PlayVideoFragment extends BaseFragment {
 			@Override
 			public void onPrepared(MediaPlayer mediaPlayer) {
 				mediaPlayer.setPlaybackSpeed(1.0f);
+				mCacheLayout.setVisibility(View.GONE);
 			}
 		});
 		mVideoView.setOnErrorListener(new OnErrorListener(){
@@ -105,6 +106,7 @@ public class PlayVideoFragment extends BaseFragment {
 	public void playVideo(String url){
 		mVideoView.setVideoPath(url);
 		mVideoView.requestFocus();
+		mCacheLayout.setVisibility(View.VISIBLE);
 	}
 	
 }

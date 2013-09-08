@@ -17,7 +17,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity {
 	@Override
 	public void onBackPressed() {
 		Log.d(TAG,"onBackPressed");
-		if(backStack.size()==1){
+		if(backStack.size()<=1){
 			//alert exit dialog
 			super.onBackPressed();
 		}else{
