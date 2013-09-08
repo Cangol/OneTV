@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="app_name">OneTv</string>
+    
+        <string name="common_empty">暂无数据！</string>
+    <string name="common_error">很抱歉，暂时无法获取相关数据!</string>
+    <string name="common_loading">加载中...</string>
 
 </resources>
