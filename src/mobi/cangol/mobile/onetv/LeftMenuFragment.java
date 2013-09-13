@@ -47,10 +47,10 @@ public class LeftMenuFragment extends BaseFragment {
 	private TextView favoriteTv;
 	private ListView listView;
 	private ListViewTips listViewTips;
-	private LoadMoreAdapter loadMoreAdapter;
+	private LoadMoreAdapter<VideoTv> loadMoreAdapter;
 	private VideoTvAdapter videoTvAdapter;
 	private int page=1;
-	private int pageSize=10;
+	private int pageSize=15;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,7 +61,7 @@ public class LeftMenuFragment extends BaseFragment {
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_leftmenu, container,false);
 		findViews(v);
-		initViews(v, savedInstanceState);
+		initViews(savedInstanceState);
 		return v;
 	}
 
@@ -75,7 +75,7 @@ public class LeftMenuFragment extends BaseFragment {
 	}
 
 	@Override
-	protected void initViews(View view, Bundle savedInstanceState) {
+	protected void initViews(Bundle savedInstanceState) {
 		historyTv.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -144,6 +144,18 @@ public class LeftMenuFragment extends BaseFragment {
 		list.add(new VideoTv(2,"http://live.gslb.letv.com/gslb?stream_id=cctv2&tag=live&ext=m3u8&sign=live_iphone"));
 		list.add(new VideoTv(3,"http://live.gslb.letv.com/gslb?stream_id=cctv3&tag=live&ext=m3u8&sign=live_iphone"));
 		list.add(new VideoTv(4,"http://live.gslb.letv.com/gslb?stream_id=cctv4&tag=live&ext=m3u8&sign=live_iphone"));
+		list.add(new VideoTv(5,"http://live.gslb.letv.com/gslb?stream_id=cctv5&tag=live&ext=m3u8&sign=live_iphone"));
+		list.add(new VideoTv(6,"http://live.gslb.letv.com/gslb?stream_id=cctv6&tag=live&ext=m3u8&sign=live_iphone"));
+		list.add(new VideoTv(7,"http://live.gslb.letv.com/gslb?stream_id=cctv7&tag=live&ext=m3u8&sign=live_iphone"));
+		list.add(new VideoTv(8,"http://live.gslb.letv.com/gslb?stream_id=cctv8&tag=live&ext=m3u8&sign=live_iphone"));
+		list.add(new VideoTv(9,"http://live.gslb.letv.com/gslb?stream_id=cctv9&tag=live&ext=m3u8&sign=live_iphone"));
+		list.add(new VideoTv(10,"http://live.gslb.letv.com/gslb?stream_id=cctv10&tag=live&ext=m3u8&sign=live_iphone"));
+		list.add(new VideoTv(11,"http://live.gslb.letv.com/gslb?stream_id=cctv11&tag=live&ext=m3u8&sign=live_iphone"));
+		list.add(new VideoTv(12,"http://live.gslb.letv.com/gslb?stream_id=cctv12&tag=live&ext=m3u8&sign=live_iphone"));
+		list.add(new VideoTv(13,"http://live.gslb.letv.com/gslb?stream_id=cctvnew&tag=live&ext=m3u8&sign=live_iphone"));
+		list.add(new VideoTv(14,"http://live.gslb.letv.com/gslb?stream_id=cctvshaoer&tag=live&ext=m3u8&sign=live_iphone"));
+		list.add(new VideoTv(15,"http://live.gslb.letv.com/gslb?stream_id=cctvmusic&tag=live&ext=m3u8&sign=live_iphone"));
+		list.add(new VideoTv(16,"http://live.gslb.letv.com/gslb?stream_id=zhejiang&tag=live&ext=m3u8&sign=live_iphone"));
 		updateView(list);
 	}
 	private void updateView(List<VideoTv> list){
@@ -161,5 +173,12 @@ public class LeftMenuFragment extends BaseFragment {
 	public void setOnChangeListener(PlayVideoChangeListener onChangeListener) {
 		this.onChangeListener = onChangeListener;
 	}
+
+	@Override
+	protected void initData(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }
