@@ -64,6 +64,7 @@ public class PlayVideoFragment extends BaseContentFragment {
 	@Override
 	protected void initViews(Bundle savedInstanceState) {
 		//mVideoView.setMediaController(new MediaController(this.getActivity()));
+
 		mVideoView.setZOrderOnTop(false);
 		mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
 			@Override

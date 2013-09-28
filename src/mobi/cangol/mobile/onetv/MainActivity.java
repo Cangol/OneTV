@@ -35,7 +35,6 @@ public class MainActivity extends BaseSlidingFragmentActivity {
 			this.setMenuFragment(LeftMenuFragment.class, "LeftMenuFragment", null);
 			//this.setContentFragment(LeftMenuFragment.class, "LeftMenuFragment", null);
 		}
-		
 		findViews();
 		initViews(savedInstanceState);
 	}
