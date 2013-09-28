@@ -20,6 +20,7 @@ import java.util.List;
 
 import mobi.cangol.mobile.onetv.adapter.VideoTvAdapter;
 import mobi.cangol.mobile.onetv.adapter.VideoTvAdapter.OnStarClickListener;
+import mobi.cangol.mobile.onetv.base.BaseMenuFragment;
 import mobi.cangol.mobile.onetv.db.model.VideoTv;
 import mobi.cangol.mobile.onetv.view.ListViewTips;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
@@ -40,8 +41,7 @@ import android.widget.TextView;
  * @author Cangol
  * @date 2013-9-8
  */
-public class LeftMenuFragment extends BaseFragment {
-	private PlayVideoChangeListener onChangeListener;
+public class LeftMenuFragment extends BaseMenuFragment {
 	private TextView historyTv;
 	private TextView followTv;
 	private TextView favoriteTv;
@@ -111,8 +111,7 @@ public class LeftMenuFragment extends BaseFragment {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				VideoTv item=videoTvAdapter.getItem(position);
-				if(onChangeListener!=null)
-				onChangeListener.OnChangeListener(item.get_id(), item.getUrl());
+				play(item.get_id(),item.getUrl());
 			}
 			
 		});
@@ -137,6 +136,11 @@ public class LeftMenuFragment extends BaseFragment {
 				}
 		});
 		initData();
+	}
+	private void play(int id,String url){
+		Bundle bundle=new Bundle();
+		bundle.putString("url", url);
+		this.setContentFragment(PlayVideoFragment.class, "PlayVideoFragment"+id, bundle,id);
 	}
 	protected void initData() {
 		List<VideoTv> list=new ArrayList<VideoTv>();
@@ -170,13 +174,15 @@ public class LeftMenuFragment extends BaseFragment {
 		}
 		loadMoreAdapter.addMoreComplete();
 	}
-	public void setOnChangeListener(PlayVideoChangeListener onChangeListener) {
-		this.onChangeListener = onChangeListener;
-	}
 
 	@Override
 	protected void initData(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onContentChange(int moduleId) {
 		
 	}
 

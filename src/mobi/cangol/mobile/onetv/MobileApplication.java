@@ -30,9 +30,9 @@ import android.app.Application;
  * @author Cangol
  * @date 2013-9-8
  */
-public class OneTvApplication  extends Application {
+public class MobileApplication  extends Application {
 		public HashMap<String,Object> session;
-		public final String TAG=Contants.makeLogTag(OneTvApplication.class);
+		public final String TAG=Contants.makeLogTag(MobileApplication.class);
 		public List<Activity> activityManager;
 		public File root;
 		@Override

@@ -2,6 +2,7 @@ package mobi.cangol.mobile.onetv.utils;
 
 public class Contants {
 	public static final boolean DEBUG=true;
+	public static final boolean LIFECYCLE=false;
 	public static final boolean FREEUSER=false;
 	public static final int DATABASE_VERSION=1;
 	public static final String DATABASE_NAME="OneTv";
