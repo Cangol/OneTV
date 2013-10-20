@@ -22,6 +22,10 @@ import io.vov.vitamio.MediaPlayer.OnInfoListener;
 import io.vov.vitamio.widget.MediaController;
 import io.vov.vitamio.widget.VideoView;
 import mobi.cangol.mobile.onetv.base.BaseContentFragment;
+import mobi.cangol.mobile.onetv.db.UserHistoryService;
+import mobi.cangol.mobile.onetv.db.model.Station;
+import mobi.cangol.mobile.onetv.db.model.UserHistory;
+import mobi.cangol.mobile.onetv.log.Log;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,20 +33,24 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cangol.mobile.utils.TimeUtils;
+
 /**
  * @Description PlayVideoFragment.java 
  * @author Cangol
  * @date 2013-9-8
  */
 public class PlayVideoFragment extends BaseContentFragment {
-	private String url="";
+	private Station station;
 	private VideoView mVideoView;
 	private LinearLayout mCacheLayout;
 	private TextView mBufferPercentTv;
+	private UserHistoryService userHistoryService;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		url=this.getArguments().getString("url");
+		station=(Station) this.getArguments().getSerializable("station");
+		userHistoryService=new UserHistoryService(this.getActivity());
 	}
 
 	@Override
@@ -63,7 +71,7 @@ public class PlayVideoFragment extends BaseContentFragment {
 
 	@Override
 	protected void initViews(Bundle savedInstanceState) {
-		//mVideoView.setMediaController(new MediaController(this.getActivity()));
+		mVideoView.setMediaController(new MediaController(this.getActivity()));
 
 		mVideoView.setZOrderOnTop(false);
 		mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -103,12 +111,29 @@ public class PlayVideoFragment extends BaseContentFragment {
 			}
 			
 		});
-		playVideo(url);
+		playVideo(station.getUrl());
 	}
 	public void playVideo(String url){
 		mVideoView.setVideoPath(url);
 		mVideoView.requestFocus();
 		mCacheLayout.setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		if(station!=null){
+			UserHistory userHistory=userHistoryService.findByStationId(station.getId());
+			if(userHistory==null){
+				userHistory=new UserHistory();
+				userHistory.setStationId(station.getId());
+				userHistory.setStationName(station.getName());
+				userHistory.setStationUrl(station.getUrl());
+			}
+			userHistory.setLastPlayTime(TimeUtils.getCurrentTime());
+			userHistoryService.save(userHistory);
+			Log.d("save history");
+		}
 	}
 
 	@Override

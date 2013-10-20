@@ -10,6 +10,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.WindowManager;
 /**
@@ -21,7 +23,7 @@ public abstract class BaseSlidingFragmentActivity extends SlidingFragmentActivit
 	protected String TAG = Contants.makeLogTag(BaseSlidingFragmentActivity.class);
 	private static final boolean LIFECYCLE=Contants.LIFECYCLE;
 	protected MobileApplication app;
-	private BaseMenuFragment menuFragment;
+	private BaseContentFragment menuFragment;
 	private FragmentStackManager stack;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,7 +43,6 @@ public abstract class BaseSlidingFragmentActivity extends SlidingFragmentActivit
 		sm.setBehindWidthRes(R.dimen.behindWidth);
 		sm.setFadeDegree(0.35f);
 		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-		this.setSlidingActionBarEnabled(false);
 		stack = FragmentStackManager.forContainer(this, R.id.content_frame,this.getSupportFragmentManager());
 		if(savedInstanceState==null){
 		}else{
@@ -50,8 +51,8 @@ public abstract class BaseSlidingFragmentActivity extends SlidingFragmentActivit
 		
 	}
 
-	final public void setMenuFragment(Class<? extends BaseMenuFragment> fragmentClass,String tag,Bundle args) {
-		menuFragment = (BaseMenuFragment) Fragment.instantiate(this,fragmentClass.getName(), args);
+	final public void setMenuFragment(Class<? extends BaseContentFragment> fragmentClass,String tag,Bundle args) {
+		menuFragment = (BaseContentFragment) Fragment.instantiate(this,fragmentClass.getName(), args);
 		FragmentTransaction t = this.getSupportFragmentManager()
 				.beginTransaction();
 		t.replace(R.id.menu_frame, menuFragment);
@@ -59,7 +60,6 @@ public abstract class BaseSlidingFragmentActivity extends SlidingFragmentActivit
 	}
 	final public void setContentFragment(Class<? extends BaseFragment> fragmentClass,String tag,Bundle args,int moduleId) {
 		this.setContentFragment(fragmentClass,tag,args);
-		menuFragment.onContentChange(moduleId);
 	}
 	final public void setContentFragment(Class<? extends BaseFragment> fragmentClass,String tag,Bundle args) {
 		stack.replace(fragmentClass, tag,args);

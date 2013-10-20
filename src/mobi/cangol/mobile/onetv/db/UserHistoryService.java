@@ -90,16 +90,29 @@ public class UserHistoryService implements BaseService<UserHistory> {
 			}
 			return null;
 	}
-	public UserHistory findByVideoId(String videoId)  {
+	public List<UserHistory> findList(long from,long total)  {
 		QueryBuilder<UserHistory, Integer> queryBuilder = dao.queryBuilder();
 		PreparedQuery<UserHistory> preparedQuery = null;
 		try {
-				queryBuilder.where().eq("videoId", videoId);
+				queryBuilder.offset(from).limit(total).orderBy("lastPlayTime", false);
 				preparedQuery = queryBuilder.prepare();
+			return dao.query(preparedQuery);
+		} catch (SQLException e) {
+			e.printStackTrace();	
+			Log.e(TAG, "UserHistoryService find fail!");
+		}
+		return null;
+	}
+	public UserHistory findByStationId(String stationId)  {
+		QueryBuilder<UserHistory, Integer> queryBuilder = dao.queryBuilder();
+		PreparedQuery<UserHistory> preparedQuery = null;
+		try {
+			queryBuilder.where().eq("stationId",""+stationId);
+			preparedQuery = queryBuilder.prepare();
 			return dao.queryForFirst(preparedQuery);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Log.e(TAG, "UserHistoryService find fail!");
+			Log.e(TAG, "findByStationId  fail!");
 		}
 		return null;
 	}

@@ -16,7 +16,7 @@
 package mobi.cangol.mobile.onetv.adapter;
 
 import mobi.cangol.mobile.onetv.R;
-import mobi.cangol.mobile.onetv.db.model.VideoTv;
+import mobi.cangol.mobile.onetv.db.model.UserFavorite;
 import mobi.cangol.mobile.onetv.view.ArrayAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -27,25 +27,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * @Description VideoTvAdapter.java 
+ * @Description UserFavoriteAdapter.java 
  * @author Cangol
  * @date 2013-9-8
  */
-public class VideoTvAdapter extends ArrayAdapter<VideoTv>{
+public class UserFavoriteAdapter extends ArrayAdapter<UserFavorite>{
 	private LayoutInflater mInflater;
 	private OnStarClickListener mOnStarClickListener;
-	public VideoTvAdapter(Context context) {
+	public UserFavoriteAdapter(Context context) {
 		super(null);
 		mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder=null;
-		VideoTv item=getItem(position);
+		UserFavorite item=getItem(position);
 		if(null!=convertView){
 			holder=(ViewHolder)convertView.getTag();
 		}else{
-			convertView = mInflater.inflate(R.layout.list_view_item_videotv, parent, false);
+			convertView = mInflater.inflate(R.layout.list_view_item_station, parent, false);
 			holder=new ViewHolder();
 			holder.icon=(ImageView) convertView.findViewById(R.id.video_tv_icon);
 			holder.name=(TextView) convertView.findViewById(R.id.video_tv_name);
@@ -54,14 +54,9 @@ public class VideoTvAdapter extends ArrayAdapter<VideoTv>{
 			convertView.setTag(holder);  
 		}
 		
-		holder.name.setText("CCTV-"+(position+1));
-		holder.desc.setText(item.getDesc());
+		holder.name.setText(item.getStationName());
+		holder.desc.setText(item.getLastPlayTime());
 		holder.icon.setImageResource(R.drawable.ic_launcher);
-		if(item.isFavorite()){
-			holder.star.setBackgroundResource(R.drawable.ic_star_selected);
-		}else{
-			holder.star.setBackgroundResource(R.drawable.ic_star_unselected);
-		}
 		
 		holder.star.setOnClickListener(new OnClickListener(){
 

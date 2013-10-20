@@ -32,89 +32,119 @@ public class UserHistory  implements java.io.Serializable {
 	@DatabaseField  
 	private String id;
 	@DatabaseField  
-	private String videoId;
-	@DatabaseField  
-	private String videoName;
-	@DatabaseField  
 	private String lastPlayTime;
+	@DatabaseField 
+	private String stationId;
+	@DatabaseField  
+	private String stationUrl;
+	@DatabaseField  
+	private String stationName;
+	
 	public UserHistory(){
 	}
+
 	/**
 	 * Creates a new instance of UserHistory. 
-	 * @param _id
 	 * @param id
-	 * @param videoId
-	 * @param videoName
 	 * @param lastPlayTime
+	 * @param stationId
+	 * @param stationUrl
+	 * @param stationName
 	 */
-	public UserHistory(Integer _id, String id, String videoId, String videoName,
-			String lastPlayTime) {
+	public UserHistory(String id, String lastPlayTime, String stationId,
+			String stationUrl, String stationName) {
 		super();
-		this._id = _id;
 		this.id = id;
-		this.videoId = videoId;
-		this.videoName = videoName;
 		this.lastPlayTime = lastPlayTime;
+		this.stationId = stationId;
+		this.stationUrl = stationUrl;
+		this.stationName = stationName;
 	}
+
 	/**
 	 * @return the _id
 	 */
 	public Integer get_id() {
 		return _id;
 	}
+
 	/**
 	 * @param _id the _id to set
 	 */
 	public void set_id(Integer _id) {
 		this._id = _id;
 	}
+
 	/**
 	 * @return the id
 	 */
 	public String getId() {
 		return id;
 	}
+
 	/**
 	 * @param id the id to set
 	 */
 	public void setId(String id) {
 		this.id = id;
 	}
-	/**
-	 * @return the videoId
-	 */
-	public String getVideoId() {
-		return videoId;
-	}
-	/**
-	 * @param videoId the videoId to set
-	 */
-	public void setVideoId(String videoId) {
-		this.videoId = videoId;
-	}
-	/**
-	 * @return the videoName
-	 */
-	public String getVideoName() {
-		return videoName;
-	}
-	/**
-	 * @param videoName the videoName to set
-	 */
-	public void setVideoName(String videoName) {
-		this.videoName = videoName;
-	}
+
 	/**
 	 * @return the lastPlayTime
 	 */
 	public String getLastPlayTime() {
 		return lastPlayTime;
 	}
+
 	/**
 	 * @param lastPlayTime the lastPlayTime to set
 	 */
 	public void setLastPlayTime(String lastPlayTime) {
 		this.lastPlayTime = lastPlayTime;
 	}
+
+	/**
+	 * @return the stationId
+	 */
+	public String getStationId() {
+		return stationId;
+	}
+
+	/**
+	 * @param stationId the stationId to set
+	 */
+	public void setStationId(String stationId) {
+		this.stationId = stationId;
+	}
+
+	/**
+	 * @return the stationUrl
+	 */
+	public String getStationUrl() {
+		return stationUrl;
+	}
+
+	/**
+	 * @param stationUrl the stationUrl to set
+	 */
+	public void setStationUrl(String stationUrl) {
+		this.stationUrl = stationUrl;
+	}
+
+	/**
+	 * @return the stationName
+	 */
+	public String getStationName() {
+		return stationName;
+	}
+
+	/**
+	 * @param stationName the stationName to set
+	 */
+	public void setStationName(String stationName) {
+		this.stationName = stationName;
+	}
+	
+	
 	
 }

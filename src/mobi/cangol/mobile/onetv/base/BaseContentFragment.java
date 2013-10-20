@@ -8,16 +8,16 @@ import android.os.Bundle;
  */
 public abstract class BaseContentFragment extends BaseFragment{
 	
-	final public void setContentFragment(Class<? extends BaseContentFragment> fragmentClass,
-			String tag,Bundle args,int moduleId) {
+	public void setTitle(String title){
 		BaseSlidingFragmentActivity bfActivity = (BaseSlidingFragmentActivity) this
 				.getActivity();
-		bfActivity.setContentFragment(fragmentClass, tag,args,moduleId);
+		bfActivity.setTitle( title);
 	}
 	final public void setContentFragment(Class<? extends BaseContentFragment> fragmentClass,String tag,Bundle args) {
 		BaseSlidingFragmentActivity bfActivity = (BaseSlidingFragmentActivity) this
 				.getActivity();
 		bfActivity.setContentFragment(fragmentClass, tag,args);
+		bfActivity.toggle();
 	}
-
+	
 }

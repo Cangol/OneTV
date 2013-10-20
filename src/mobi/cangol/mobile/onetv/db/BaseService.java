@@ -10,6 +10,8 @@ package mobi.cangol.mobile.onetv.db;
 import java.sql.SQLException;
 import java.util.List;
 
+import mobi.cangol.mobile.onetv.db.model.UserHistory;
+
 
 
 public interface  BaseService<T> {
@@ -47,5 +49,11 @@ public interface  BaseService<T> {
 	 * @param obj
 	 */
 	int save(T obj);
-	
+	/**
+	 * 
+	 * @param from
+	 * @param total
+	 * @return
+	 */
+	List<T> findList(long from,long total) ;
 }

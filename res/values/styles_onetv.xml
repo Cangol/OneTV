@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- File created by the Android Action Bar Style Generator
+
+     Copyright (C) 2011 The Android Open Source Project
+     Copyright (C) 2012 readyState Software Ltd
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+
+    <style name="Theme.Onetv" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionBarItemBackground">@drawable/selectable_background_onetv</item>
+        <item name="popupMenuStyle">@style/PopupMenu.Onetv</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.Onetv</item>
+        <item name="actionBarTabStyle">@style/ActionBarTabStyle.Onetv</item>
+        <item name="actionDropDownStyle">@style/DropDownNav.Onetv</item>
+        <item name="actionBarStyle">@style/ActionBar.Solid.Onetv</item>
+        <item name="actionModeBackground">@drawable/cab_background_top_onetv</item>
+        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_onetv</item>
+        <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Onetv</item>
+
+                <!-- Light.DarkActionBar specific -->
+        <item name="actionBarWidgetTheme">@style/Theme.Onetv.Widget</item>
+
+    </style>
+
+    <style name="ActionBar.Solid.Onetv" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="background">@drawable/ab_solid_onetv</item>
+        <item name="backgroundStacked">@drawable/ab_stacked_solid_onetv</item>
+        <item name="backgroundSplit">@drawable/ab_bottom_solid_onetv</item>
+        <item name="progressBarStyle">@style/ProgressBar.Onetv</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Onetv" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="background">@drawable/ab_transparent_onetv</item>
+        <item name="progressBarStyle">@style/ProgressBar.Onetv</item>
+    </style>
+	
+    <style name="PopupMenu.Onetv" parent="@style/Widget.AppCompat.PopupMenu">	
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_onetv</item>	
+    </style>
+	
+    <style name="DropDownListView.Onetv" parent="@style/Widget.AppCompat.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_onetv</item>
+    </style>
+
+    <style name="ActionBarTabStyle.Onetv" parent="@style/Widget.AppCompat.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_onetv</item>
+    </style>
+	
+    <style name="DropDownNav.Onetv" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">
+        <item name="android:background">@drawable/spinner_background_ab_onetv</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_onetv</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_onetv</item>
+    </style>
+    
+    <style name="ProgressBar.Onetv" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_onetv</item>
+    </style>
+    
+    <style name="ActionButton.CloseMode.Onetv" parent="@style/Widget.AppCompat.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_onetv</item>
+    </style>
+    
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Onetv.Widget" parent="@style/Theme.AppCompat">
+        <item name="popupMenuStyle">@style/PopupMenu.Onetv</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.Onetv</item>
+    </style>
+
+</resources>

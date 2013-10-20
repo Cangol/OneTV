@@ -16,27 +16,25 @@
 
 package mobi.cangol.mobile.onetv;
 
-import io.vov.vitamio.LibsChecker;
 import mobi.cangol.mobile.onetv.base.BaseSlidingFragmentActivity;
 import android.os.Bundle;
 
 import com.cangol.mobile.logging.Log;
 
 public class MainActivity extends BaseSlidingFragmentActivity {
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		if (!LibsChecker.checkVitamioLibs(this))
-			return;
-		Log.setLogLevelFormat(android.util.Log.INFO, false);
 		if(savedInstanceState==null){
 			this.setMenuFragment(LeftMenuFragment.class, "LeftMenuFragment", null);
-			//this.setContentFragment(LeftMenuFragment.class, "LeftMenuFragment", null);
+			Bundle bundle=new Bundle();
+			bundle.putSerializable("position", "right");
+			this.setContentFragment(StationListFragment.class, "StationFragment", bundle);
 		}
 		findViews();
 		initViews(savedInstanceState);
+		this.setSlidingActionBarEnabled(false);
 	}
 
 	@Override
@@ -51,4 +49,5 @@ public class MainActivity extends BaseSlidingFragmentActivity {
 	@Override
 	protected void initData(Bundle savedInstanceState) {
 	}
+
 }

@@ -5,6 +5,12 @@
      <string name="common_empty">暂无数据！</string>
     <string name="common_error">很抱歉，暂时无法获取相关数据!</string>
     <string name="common_loading">加载中...</string>
+    <string name="menu_station">电视台</string>
+     <string name="menu_favorites">我的收藏</string>
+    <string name="menu_remind">播放提醒</string>
+    <string name="menu_history">播放历史</string>
+    
+    
     <!--vitamio  -->
 	<string name="vitamio_library_app_name">VitamioLibrary</string>
     <string name="vitamio_init_decoders">Initializing decoders…</string>
@@ -21,4 +27,6 @@
     <string name="VideoView_error_text_unknown">Sorry, this video cannot be played.</string>
     <string name="VideoView_error_button">OK</string>
     <string name="mediacontroller_play_pause">Play/Pause</string>
+    
+    
 </resources>

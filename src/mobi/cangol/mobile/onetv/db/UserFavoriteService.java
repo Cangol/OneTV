@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import mobi.cangol.mobile.onetv.db.model.UserFavorite;
+import mobi.cangol.mobile.onetv.db.model.UserHistory;
+import mobi.cangol.mobile.onetv.db.model.UserRemind;
 import mobi.cangol.mobile.onetv.utils.Contants;
 import android.content.Context;
 import android.util.Log;
@@ -100,6 +102,33 @@ public class UserFavoriteService implements BaseService<UserFavorite> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Log.e(TAG, "UserFavoriteService find fail!");
+		}
+		return null;
+	}
+	@Override
+	public List<UserFavorite> findList(long from, long total) {
+		QueryBuilder<UserFavorite, Integer> queryBuilder = dao.queryBuilder();
+		PreparedQuery<UserFavorite> preparedQuery = null;
+		try {
+				queryBuilder.offset(from).limit(total);
+				preparedQuery = queryBuilder.prepare();
+			return dao.query(preparedQuery);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			Log.e(TAG, "UserHistoryService find fail!");
+		}
+		return null;
+	}
+	public UserFavorite findByStationId(String stationId)  {
+		QueryBuilder<UserFavorite, Integer> queryBuilder = dao.queryBuilder();
+		PreparedQuery<UserFavorite> preparedQuery = null;
+		try {
+			queryBuilder.where().eq("stationId",""+stationId);
+			preparedQuery = queryBuilder.prepare();
+			return dao.queryForFirst(preparedQuery);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			Log.e(TAG, "findByStationId  fail!");
 		}
 		return null;
 	}

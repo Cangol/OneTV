@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#111"
     android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:gravity="center_vertical"
         android:orientation="horizontal" >
 
@@ -38,47 +38,57 @@
                 android:textColor="#ffffff" />
         </LinearLayout>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/menu_user_history"
+	<TextView
+        android:id="@+id/menu_station"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:text="history"
+         android:padding="8dp"
+        android:background="@drawable/selectable_background_onetv"
+        android:gravity="left|center_vertical"
+        android:text="@string/menu_station"
+        android:drawableLeft="@drawable/ic_station"
+        android:drawablePadding="4dp"
+        android:textStyle="bold"
+        android:textSize="18sp"
         android:textColor="#ffffff" />
-
     <TextView
-        android:id="@+id/menu_user_favorites"
+        android:id="@+id/menu_favorites"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:text="favorites"
+        android:padding="8dp"
+        android:background="@drawable/selectable_background_onetv"
+        android:gravity="left|center_vertical"
+        android:text="@string/menu_favorites"
+        android:drawableLeft="@drawable/ic_favorites"
+        android:drawablePadding="4dp"
+        android:textStyle="bold"
+        android:textSize="18sp"
         android:textColor="#ffffff" />
-
+	 <TextView
+        android:id="@+id/menu_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         android:padding="8dp"
+        android:background="@drawable/selectable_background_onetv"
+        android:gravity="left|center_vertical"
+        android:text="@string/menu_history"
+        android:drawableLeft="@drawable/ic_history"
+        android:drawablePadding="4dp"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="#ffffff" />
+    
     <TextView
-        android:id="@+id/menu_user_follow"
+        android:id="@+id/menu_remind"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:text="follow"
+        android:padding="8dp"
+        android:background="@drawable/selectable_background_onetv"
+        android:gravity="left|center_vertical"
+        android:text="@string/menu_remind"
+        android:drawableLeft="@drawable/ic_remind"
+        android:drawablePadding="4dp"
+        android:textStyle="bold"
+        android:textSize="18sp"
         android:textColor="#ffffff" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <mobi.cangol.mobile.onetv.view.ListViewTips
-            android:id="@+id/listViewTips"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-        </mobi.cangol.mobile.onetv.view.ListViewTips>
-
-        <ListView
-            android:id="@+id/menu_listview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </ListView>
-    </LinearLayout>
-
 </LinearLayout>

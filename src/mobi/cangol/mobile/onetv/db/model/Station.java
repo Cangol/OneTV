@@ -15,6 +15,7 @@
  */
 package mobi.cangol.mobile.onetv.db.model;
 
+import com.cangol.mobile.json.Element;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -23,13 +24,14 @@ import com.j256.ormlite.table.DatabaseTable;
  * @author Cangol
  * @date 2013-9-8
  */
-@DatabaseTable(tableName = "video_tv")
-public class VideoTv implements java.io.Serializable {
+@DatabaseTable(tableName = "station")
+public class Station implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	// Fields
 	@DatabaseField(generatedId = true, unique = true)
 	private Integer _id;
-	@DatabaseField
+	@DatabaseField@
+	Element("cid")
 	private String id;
 	@DatabaseField
 	private String zone;
@@ -40,19 +42,23 @@ public class VideoTv implements java.io.Serializable {
 	@DatabaseField
 	private String channel;
 	@DatabaseField
+	@Element("name")
 	private String name;
 	@DatabaseField
+	@Element("description")
 	private String desc;
 	@DatabaseField
+	@Element("url")
 	private String url ;
 	private boolean isFavorite;
-	
+	public Station() {
+	}
 	/**
 	 * Creates a new instance of VideoTv. 
 	 * @param _id
 	 * @param url
 	 */
-	public VideoTv(Integer _id, String url) {
+	public Station(Integer _id, String url) {
 		super();
 		this._id = _id;
 		this.url = url;

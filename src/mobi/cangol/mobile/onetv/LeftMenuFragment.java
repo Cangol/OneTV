@@ -15,25 +15,12 @@
  */
 package mobi.cangol.mobile.onetv;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import mobi.cangol.mobile.onetv.adapter.VideoTvAdapter;
-import mobi.cangol.mobile.onetv.adapter.VideoTvAdapter.OnStarClickListener;
-import mobi.cangol.mobile.onetv.base.BaseMenuFragment;
-import mobi.cangol.mobile.onetv.db.model.VideoTv;
-import mobi.cangol.mobile.onetv.view.ListViewTips;
-import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
-import mobi.cangol.mobile.onetv.view.LoadMoreAdapter.OnLoadCallback;
-import android.content.Context;
+import mobi.cangol.mobile.onetv.base.BaseContentFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 import android.widget.TextView;
 
 /**
@@ -41,16 +28,11 @@ import android.widget.TextView;
  * @author Cangol
  * @date 2013-9-8
  */
-public class LeftMenuFragment extends BaseMenuFragment {
+public class LeftMenuFragment extends BaseContentFragment {
 	private TextView historyTv;
-	private TextView followTv;
+	private TextView remindTv;
 	private TextView favoriteTv;
-	private ListView listView;
-	private ListViewTips listViewTips;
-	private LoadMoreAdapter<VideoTv> loadMoreAdapter;
-	private VideoTvAdapter videoTvAdapter;
-	private int page=1;
-	private int pageSize=15;
+	private TextView stationTv;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,28 +49,36 @@ public class LeftMenuFragment extends BaseMenuFragment {
 
 	@Override
 	protected void findViews(View view) {
-		historyTv=(TextView) view.findViewById(R.id.menu_user_history);
-		followTv=(TextView) view.findViewById(R.id.menu_user_follow);
-		favoriteTv=(TextView) view.findViewById(R.id.menu_user_favorites);
-		listView= (ListView) view.findViewById(R.id.menu_listview);
-		listViewTips=(ListViewTips) view.findViewById(R.id.listViewTips);
+		historyTv=(TextView) view.findViewById(R.id.menu_history);
+		remindTv=(TextView) view.findViewById(R.id.menu_remind);
+		favoriteTv=(TextView) view.findViewById(R.id.menu_favorites);
+		stationTv=(TextView) view.findViewById(R.id.menu_station);
 	}
 
 	@Override
 	protected void initViews(Bundle savedInstanceState) {
+		stationTv.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				setContentFragment(StationListFragment.class, "StationFragment",null);
+			}
+		
+		});
+		
 		historyTv.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				
+				setContentFragment(UserHistoryFragment.class, "HistoryFragment",null);
 			}
 		
 		});
-		followTv.setOnClickListener(new OnClickListener(){
+		remindTv.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				
+				setContentFragment(UserRemindFragment.class, "RemindFragment",null);
 			}
 		
 		});
@@ -96,95 +86,15 @@ public class LeftMenuFragment extends BaseMenuFragment {
 
 			@Override
 			public void onClick(View v) {
-				
+				setContentFragment(UserFavoriteFragment.class, "FavoriteFragment",null);
 			}
 		
 		});
-		LayoutInflater mInflater=(LayoutInflater) this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		videoTvAdapter = new VideoTvAdapter(this.getActivity());
-		loadMoreAdapter = new LoadMoreAdapter<VideoTv>(videoTvAdapter,mInflater.inflate(R.layout.commons_list_view_footer,null));
-		loadMoreAdapter.setAbsListView(listView);
-		listView.setAdapter(loadMoreAdapter);
-		listView.setOnItemClickListener(new OnItemClickListener(){
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				VideoTv item=videoTvAdapter.getItem(position);
-				play(item.get_id(),item.getUrl());
-			}
-			
-		});
-		videoTvAdapter.setOnStarClickListener(new OnStarClickListener(){
-
-			@Override
-			public void onClick(View v, int position) {
-				
-			}
-			
-		});
-		loadMoreAdapter.setOnLoadCallback(new OnLoadCallback(){
-
-			@Override
-			public boolean hasNext(int count) {
-				return count>=page*pageSize;
-			}
-
-			@Override
-			public void loadMoreData() {
-					page++;
-				}
-		});
-		initData();
-	}
-	private void play(int id,String url){
-		Bundle bundle=new Bundle();
-		bundle.putString("url", url);
-		this.setContentFragment(PlayVideoFragment.class, "PlayVideoFragment"+id, bundle,id);
-	}
-	protected void initData() {
-		List<VideoTv> list=new ArrayList<VideoTv>();
-		list.add(new VideoTv(1,"http://live.gslb.letv.com/gslb?stream_id=cctv1&tag=live&ext=m3u8&sign=live_iphone"));
-		list.add(new VideoTv(2,"http://live.gslb.letv.com/gslb?stream_id=cctv2&tag=live&ext=m3u8&sign=live_iphone"));
-		list.add(new VideoTv(3,"http://live.gslb.letv.com/gslb?stream_id=cctv3&tag=live&ext=m3u8&sign=live_iphone"));
-		list.add(new VideoTv(4,"http://live.gslb.letv.com/gslb?stream_id=cctv4&tag=live&ext=m3u8&sign=live_iphone"));
-		list.add(new VideoTv(5,"http://live.gslb.letv.com/gslb?stream_id=cctv5&tag=live&ext=m3u8&sign=live_iphone"));
-		list.add(new VideoTv(6,"http://live.gslb.letv.com/gslb?stream_id=cctv6&tag=live&ext=m3u8&sign=live_iphone"));
-		list.add(new VideoTv(7,"http://live.gslb.letv.com/gslb?stream_id=cctv7&tag=live&ext=m3u8&sign=live_iphone"));
-		list.add(new VideoTv(8,"http://live.gslb.letv.com/gslb?stream_id=cctv8&tag=live&ext=m3u8&sign=live_iphone"));
-		list.add(new VideoTv(9,"http://live.gslb.letv.com/gslb?stream_id=cctv9&tag=live&ext=m3u8&sign=live_iphone"));
-		list.add(new VideoTv(10,"http://live.gslb.letv.com/gslb?stream_id=cctv10&tag=live&ext=m3u8&sign=live_iphone"));
-		list.add(new VideoTv(11,"http://live.gslb.letv.com/gslb?stream_id=cctv11&tag=live&ext=m3u8&sign=live_iphone"));
-		list.add(new VideoTv(12,"http://live.gslb.letv.com/gslb?stream_id=cctv12&tag=live&ext=m3u8&sign=live_iphone"));
-		list.add(new VideoTv(13,"http://live.gslb.letv.com/gslb?stream_id=cctvnew&tag=live&ext=m3u8&sign=live_iphone"));
-		list.add(new VideoTv(14,"http://live.gslb.letv.com/gslb?stream_id=cctvshaoer&tag=live&ext=m3u8&sign=live_iphone"));
-		list.add(new VideoTv(15,"http://live.gslb.letv.com/gslb?stream_id=cctvmusic&tag=live&ext=m3u8&sign=live_iphone"));
-		list.add(new VideoTv(16,"http://live.gslb.letv.com/gslb?stream_id=zhejiang&tag=live&ext=m3u8&sign=live_iphone"));
-		updateView(list);
-	}
-	private void updateView(List<VideoTv> list){
-		if(page==1){
-			videoTvAdapter.clear();
-		}
-		videoTvAdapter.addAll(list);
-		if(videoTvAdapter.getCount()>0){
-			listViewTips.showContent();
-		}else{
-			listViewTips.showEmpty();
-		}
-		loadMoreAdapter.addMoreComplete();
+	
 	}
 
 	@Override
 	protected void initData(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	protected void onContentChange(int moduleId) {
-		
-	}
-
-	
 }

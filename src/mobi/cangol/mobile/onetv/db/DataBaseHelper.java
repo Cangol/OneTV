@@ -3,9 +3,9 @@ package mobi.cangol.mobile.onetv.db;
 import java.sql.SQLException;
 
 import mobi.cangol.mobile.onetv.db.model.UserFavorite;
-import mobi.cangol.mobile.onetv.db.model.UserFollow;
+import mobi.cangol.mobile.onetv.db.model.UserRemind;
 import mobi.cangol.mobile.onetv.db.model.UserHistory;
-import mobi.cangol.mobile.onetv.db.model.VideoTv;
+import mobi.cangol.mobile.onetv.db.model.Station;
 import mobi.cangol.mobile.onetv.utils.Contants;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -42,9 +42,9 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
 		try {
 			
 			TableUtils.createTable(connectionSource, UserFavorite.class);
-			TableUtils.createTable(connectionSource, UserFollow.class);
+			TableUtils.createTable(connectionSource, UserRemind.class);
 			TableUtils.createTable(connectionSource, UserHistory.class);
-			TableUtils.createTable(connectionSource, VideoTv.class);
+			TableUtils.createTable(connectionSource, Station.class);
 		} catch (java.sql.SQLException e) {
 			Log.e(TAG, "create database fail", e);
 			e.printStackTrace();
@@ -57,9 +57,9 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
 		try {
 			if(db.getVersion()<DATABASE_VERSION){
 				TableUtils.dropTable(connectionSource, UserFavorite.class, true);
-				TableUtils.dropTable(connectionSource, UserFollow.class, true);
+				TableUtils.dropTable(connectionSource, UserRemind.class, true);
 				TableUtils.dropTable(connectionSource, UserHistory.class, true);
-				TableUtils.dropTable(connectionSource, VideoTv.class, true);
+				TableUtils.dropTable(connectionSource, Station.class, true);
 				onCreate(db, connectionSource);
 			}
 		} catch (SQLException e) {
