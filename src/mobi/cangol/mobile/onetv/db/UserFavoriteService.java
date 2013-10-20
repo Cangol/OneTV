@@ -110,7 +110,7 @@ public class UserFavoriteService implements BaseService<UserFavorite> {
 		QueryBuilder<UserFavorite, Integer> queryBuilder = dao.queryBuilder();
 		PreparedQuery<UserFavorite> preparedQuery = null;
 		try {
-				queryBuilder.offset(from).limit(total);
+				queryBuilder.offset(from).limit(total).orderBy("lastPlayTime", false);
 				preparedQuery = queryBuilder.prepare();
 			return dao.query(preparedQuery);
 		} catch (SQLException e) {

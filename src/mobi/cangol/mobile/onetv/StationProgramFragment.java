@@ -15,35 +15,40 @@
  */
 package mobi.cangol.mobile.onetv;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import mobi.cangol.mobile.onetv.adapter.StationAdapter;
-import mobi.cangol.mobile.onetv.adapter.StationAdapter.OnStarClickListener;
+import mobi.cangol.mobile.onetv.adapter.ProgramAdapter;
+import mobi.cangol.mobile.onetv.adapter.ProgramAdapter.OnActionClickListener;
 import mobi.cangol.mobile.onetv.api.ApiContants;
-import mobi.cangol.mobile.onetv.api.ApiHttpResult;
+import mobi.cangol.mobile.onetv.api.CommSAXParserUtil;
+import mobi.cangol.mobile.onetv.api.WebServicesFeed;
 import mobi.cangol.mobile.onetv.base.BaseContentFragment;
-import mobi.cangol.mobile.onetv.db.StationService;
+import mobi.cangol.mobile.onetv.db.UserFavoriteService;
+import mobi.cangol.mobile.onetv.db.UserRemindService;
+import mobi.cangol.mobile.onetv.db.model.Program;
 import mobi.cangol.mobile.onetv.db.model.Station;
+import mobi.cangol.mobile.onetv.db.model.UserFavorite;
+import mobi.cangol.mobile.onetv.db.model.UserRemind;
 import mobi.cangol.mobile.onetv.log.Log;
 import mobi.cangol.mobile.onetv.view.ListViewTips;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter.OnLoadCallback;
-
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.cangol.mobile.http.AsyncHttpClient;
-import com.cangol.mobile.http.JsonHttpResponseHandler;
+import com.cangol.mobile.http.AsyncHttpResponseHandler;
 import com.cangol.mobile.http.RequestParams;
+import com.cangol.mobile.utils.TimeUtils;
 
 /**
  * @Description StationFragment.java 
@@ -51,22 +56,29 @@ import com.cangol.mobile.http.RequestParams;
  * @date 2013-9-8
  */
 public class StationProgramFragment extends BaseContentFragment {
+	private TextView nameTv;
+	private TextView descTv;
+	private ImageView logoImg;
+	private ImageView favoriteImg;
 	private ListView listView;
 	private ListViewTips listViewTips;
-	private LoadMoreAdapter<Station> loadMoreAdapter;
-	private StationAdapter dataAdapter;
-	private StationService stationService;
+	private LoadMoreAdapter<Program> loadMoreAdapter;
+	private ProgramAdapter dataAdapter;
 	private Station station;
+	private UserFavoriteService userFavoriteService;
+	private UserRemindService userRemindService;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		userRemindService=new UserRemindService(this.getActivity());
+		userFavoriteService=new UserFavoriteService(this.getActivity());
 		station=(Station) this.getArguments().getSerializable("station");
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_list, container,false);
+		View v = inflater.inflate(R.layout.fragment_program, container,false);
 		findViews(v);
 		initViews(savedInstanceState);
 		return v;
@@ -74,33 +86,39 @@ public class StationProgramFragment extends BaseContentFragment {
 
 	@Override
 	protected void findViews(View view) {
+		nameTv=(TextView) view.findViewById(R.id.station_name);
+		descTv=(TextView) view.findViewById(R.id.station_desc);
+		logoImg=(ImageView) view.findViewById(R.id.station_logo);
+		favoriteImg=(ImageView) view.findViewById(R.id.station_favorite);
 		listView= (ListView) view.findViewById(R.id.listview);
 		listViewTips=(ListViewTips) view.findViewById(R.id.listViewTips);
 	}
 
 	@Override
 	protected void initViews(Bundle savedInstanceState) {
-		this.setTitle(R.string.menu_station);
+		this.setTitle(station.getName());
 		LayoutInflater mInflater=(LayoutInflater) this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		dataAdapter = new StationAdapter(this.getActivity());
-		loadMoreAdapter = new LoadMoreAdapter<Station>(dataAdapter,mInflater.inflate(R.layout.commons_list_view_footer,null));
+		dataAdapter = new ProgramAdapter(this.getActivity());
+		loadMoreAdapter = new LoadMoreAdapter<Program>(dataAdapter,mInflater.inflate(R.layout.commons_list_view_footer,null));
 		loadMoreAdapter.setAbsListView(listView);
 		listView.setAdapter(loadMoreAdapter);
-		listView.setOnItemClickListener(new OnItemClickListener(){
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Station item=dataAdapter.getItem(position);
-				playStation(item);
-			}
-			
-		});
-		dataAdapter.setOnStarClickListener(new OnStarClickListener(){
+		dataAdapter.setOnActionClickListener(new OnActionClickListener(){
 
 			@Override
 			public void onClick(View v, int position) {
-				
+				Program item=dataAdapter.getItem(position);
+				UserRemind userRemind=userRemindService.findByStationId(station.getId());
+				if(userRemind==null){
+					userRemind=new UserRemind();
+					userRemind.setStationId(station.getId());
+					userRemind.setStationName(station.getName());
+					userRemind.setStationUrl(station.getUrl());
+					userRemind.setPlayTime(item.getPlayTime());
+					userRemind.setProgram(item.getTvProgram());
+					userRemindService.save(userRemind);
+				}else{
+					userRemindService.delete(userRemind.get_id());
+				}
 			}
 			
 		});
@@ -115,32 +133,69 @@ public class StationProgramFragment extends BaseContentFragment {
 			public void loadMoreData() {
 				}
 		});
-		initData();
+		logoImg.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				playStation(station);
+			}
+			
+		});
+		favoriteImg.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+					UserFavorite userFavorite=userFavoriteService.findByStationId(station.getId());
+					if(userFavorite==null){
+						userFavorite=new UserFavorite();
+						userFavorite.setStationId(station.getId());
+						userFavorite.setStationName(station.getName());
+						userFavorite.setStationUrl(station.getUrl());
+						userFavorite.setLastPlayTime(TimeUtils.getCurrentTime());
+						userFavoriteService.save(userFavorite);
+					}else{
+						userFavoriteService.delete(userFavorite.get_id());
+					}
+			}
+			
+		});
+		nameTv.setText(station.getName());
+		descTv.setText(station.getDesc());
+		getStationProgram();
 	}
 	private void playStation(Station station){
 			Intent intent=new Intent(this.getActivity(),PlayerActivity.class);
 			intent.putExtra("station", "right");
 			this.startActivity(intent);
 	}
-	protected void initData() {
+	protected void getStationProgram() {
 		AsyncHttpClient client=new AsyncHttpClient();
-		RequestParams params=new RequestParams(ApiContants.stationSync(""));
-		client.get(ApiContants.URL_STATION_SYNC, params, new JsonHttpResponseHandler(){
+		RequestParams params=new RequestParams(ApiContants.stationProgram("214", TimeUtils.getCurrentDate(), ""));
+		client.get(ApiContants.URL_STATION_PROGRAM, params, new AsyncHttpResponseHandler(){
 
 			@Override
-			public void onSuccess(JSONObject response) {
+			public void onSuccess(String response) {
 				super.onSuccess(response);
 				Log.d(response.toString());
-				ApiHttpResult<Station> result=ApiHttpResult.parserObject(Station.class, response);
-				List<Station> list=result.getList();
-				for(Station station:list){
-					stationService.save(station);
+				CommSAXParserUtil parserUtil=new CommSAXParserUtil();
+				WebServicesFeed feed=(WebServicesFeed)parserUtil.getFeed(CommSAXParserUtil.WEBSERVICES_HANDLER, response);
+				if(feed==null){
+					return;
 				}
+				String[] temp=new String[3];
+				List<Program>   programs= new ArrayList<Program>();
+				for (int i = 0; i < feed.getAllData().size(); i++) {
+					temp=feed.getAllData().get(i).split("@@@");
+					programs.add(new Program(temp[0].substring(0, 5),temp[0].substring(6, 8),temp[1],temp[2]));
+				}
+				updateView(programs);
 			}
 
 			@Override
 			public void onFailure(Throwable error, String content) {
 				super.onFailure(error, content);
+				Log.d(" onFailure:"+content);
+				listViewTips.showEmpty(content);
 			}
 
 			@Override
@@ -151,11 +206,12 @@ public class StationProgramFragment extends BaseContentFragment {
 			@Override
 			public void onStart() {
 				super.onStart();
+				listViewTips.showLoading();
 			}
 			
 		});
 	}
-	private void updateView(List<Station> list){
+	private void updateView(List<Program> list){
 		dataAdapter.addAll(list);
 		if(dataAdapter.getCount()>0){
 			listViewTips.showContent();

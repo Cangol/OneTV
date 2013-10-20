@@ -33,7 +33,7 @@ import android.widget.TextView;
  */
 public class UserRemindAdapter extends ArrayAdapter<UserRemind>{
 	private LayoutInflater mInflater;
-	private OnStarClickListener mOnStarClickListener;
+	private OnActionClickListener mOnActionClickListener;
 	public UserRemindAdapter(Context context) {
 		super(null);
 		mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -45,43 +45,42 @@ public class UserRemindAdapter extends ArrayAdapter<UserRemind>{
 		if(null!=convertView){
 			holder=(ViewHolder)convertView.getTag();
 		}else{
-			convertView = mInflater.inflate(R.layout.list_view_item_station, parent, false);
+			convertView = mInflater.inflate(R.layout.list_view_item_remind, parent, false);
 			holder=new ViewHolder();
-			holder.icon=(ImageView) convertView.findViewById(R.id.video_tv_icon);
-			holder.name=(TextView) convertView.findViewById(R.id.video_tv_name);
-			holder.desc=(TextView) convertView.findViewById(R.id.video_tv_desc);
-			holder.star=(ImageView) convertView.findViewById(R.id.video_tv_star);
+			holder.name=(TextView) convertView.findViewById(R.id.item_name);
+			holder.time=(TextView) convertView.findViewById(R.id.item_time);
+			holder.desc=(TextView) convertView.findViewById(R.id.item_desc);
+			holder.action=(ImageView) convertView.findViewById(R.id.item_action);
 			convertView.setTag(holder);  
 		}
 		
 		holder.name.setText(item.getStationName());
-		holder.desc.setText(item.getLastPlayTime());
-		holder.icon.setImageResource(R.drawable.ic_launcher);
-		
-		holder.star.setOnClickListener(new OnClickListener(){
+		holder.desc.setText(item.getProgram());
+		holder.time.setText(item.getPlayTime());
+		holder.action.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				mOnStarClickListener.onClick(v, position);
+				mOnActionClickListener.onClick(v, position);
 			}
 			
 		});
 		return convertView;
 	}
 	class ViewHolder{
-		ImageView icon;
+		TextView time;
 		TextView name;
 		TextView desc;
-		ImageView star;
+		ImageView action;
 	}
-	public OnStarClickListener getOnStarClickListener() {
-		return mOnStarClickListener;
+	public OnActionClickListener getOnActionClickListener() {
+		return mOnActionClickListener;
 	}
 
-	public void setOnStarClickListener(OnStarClickListener mOnStarClickListener) {
-		this.mOnStarClickListener = mOnStarClickListener;
+	public void setOnActionClickListener(OnActionClickListener mOnActionClickListener) {
+		this.mOnActionClickListener = mOnActionClickListener;
 	}
-	public interface OnStarClickListener{
+	public interface OnActionClickListener{
 		void onClick(View v,int position);
 	}
 }

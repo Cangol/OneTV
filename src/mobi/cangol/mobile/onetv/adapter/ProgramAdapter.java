@@ -16,9 +16,7 @@
 package mobi.cangol.mobile.onetv.adapter;
 
 import mobi.cangol.mobile.onetv.R;
-import mobi.cangol.mobile.onetv.adapter.UserHistoryAdapter.ViewHolder;
-import mobi.cangol.mobile.onetv.db.model.UserFavorite;
-import mobi.cangol.mobile.onetv.db.model.UserHistory;
+import mobi.cangol.mobile.onetv.db.model.Program;
 import mobi.cangol.mobile.onetv.view.ArrayAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -29,40 +27,40 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * @Description UserFavoriteAdapter.java 
+ * @Description ProgramAdapter.java 
  * @author Cangol
  * @date 2013-9-8
  */
-public class UserFavoriteAdapter extends ArrayAdapter<UserFavorite>{
+public class ProgramAdapter extends ArrayAdapter<Program>{
 	private LayoutInflater mInflater;
-	private OnStarClickListener mOnStarClickListener;
-	public UserFavoriteAdapter(Context context) {
+	private OnActionClickListener mOnActionClickListener;
+	public ProgramAdapter(Context context) {
 		super(null);
 		mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder=null;
-		UserFavorite item=getItem(position);
+		Program item=getItem(position);
 		if(null!=convertView){
 			holder=(ViewHolder)convertView.getTag();
 		}else{
-			convertView = mInflater.inflate(R.layout.list_view_item_history, parent, false);
+			convertView = mInflater.inflate(R.layout.list_view_item_program, parent, false);
 			holder=new ViewHolder();
-			holder.name=(TextView) convertView.findViewById(R.id.item_name);
-			holder.time=(TextView) convertView.findViewById(R.id.item_time);
-			holder.action=(ImageView) convertView.findViewById(R.id.item_action);
+			holder.name=(TextView) convertView.findViewById(R.id.program_name);
+			holder.time=(TextView) convertView.findViewById(R.id.program_time);
+			holder.action=(ImageView) convertView.findViewById(R.id.program_action);
 			convertView.setTag(holder);  
 		}
 		
-		holder.name.setText(item.getStationName());
-		holder.time.setText(item.getLastPlayTime());
+		holder.time.setText(item.getPlayTime());
+		holder.name.setText(item.getTvProgram());
 		
 		holder.action.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				mOnStarClickListener.onClick(v, position);
+				mOnActionClickListener.onClick(v, position);
 			}
 			
 		});
@@ -73,14 +71,14 @@ public class UserFavoriteAdapter extends ArrayAdapter<UserFavorite>{
 		TextView time;
 		ImageView action;
 	}
-	public OnStarClickListener getOnStarClickListener() {
-		return mOnStarClickListener;
+	public OnActionClickListener getOnActionClickListener() {
+		return mOnActionClickListener;
 	}
 
-	public void setOnStarClickListener(OnStarClickListener mOnStarClickListener) {
-		this.mOnStarClickListener = mOnStarClickListener;
+	public void setOnActionClickListener(OnActionClickListener mOnActionClickListener) {
+		this.mOnActionClickListener = mOnActionClickListener;
 	}
-	public interface OnStarClickListener{
+	public interface OnActionClickListener{
 		void onClick(View v,int position);
 	}
 }

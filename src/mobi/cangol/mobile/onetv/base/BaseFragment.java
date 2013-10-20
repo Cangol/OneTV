@@ -19,7 +19,7 @@ import android.view.ViewGroup;
  */
 public abstract class BaseFragment extends Fragment{
 	protected String TAG = Contants.makeLogTag(BaseFragment.class);
-	private static final boolean LIFECYCLE=true;
+	private static final boolean LIFECYCLE=Contants.LIFECYCLE;
 	private String title;
 	private FragmentStackManager stack;
 	protected MobileApplication app;

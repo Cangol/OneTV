@@ -45,20 +45,18 @@ public class UserHistoryAdapter extends ArrayAdapter<UserHistory>{
 		if(null!=convertView){
 			holder=(ViewHolder)convertView.getTag();
 		}else{
-			convertView = mInflater.inflate(R.layout.list_view_item_station, parent, false);
+			convertView = mInflater.inflate(R.layout.list_view_item_history, parent, false);
 			holder=new ViewHolder();
-			holder.icon=(ImageView) convertView.findViewById(R.id.video_tv_icon);
-			holder.name=(TextView) convertView.findViewById(R.id.video_tv_name);
-			holder.desc=(TextView) convertView.findViewById(R.id.video_tv_desc);
-			holder.star=(ImageView) convertView.findViewById(R.id.video_tv_star);
+			holder.name=(TextView) convertView.findViewById(R.id.item_name);
+			holder.time=(TextView) convertView.findViewById(R.id.item_time);
+			holder.action=(ImageView) convertView.findViewById(R.id.item_action);
 			convertView.setTag(holder);  
 		}
 		
 		holder.name.setText(item.getStationName());
-		holder.desc.setText(item.getLastPlayTime());
-		holder.icon.setImageResource(R.drawable.ic_launcher);
+		holder.time.setText(item.getLastPlayTime());
 		
-		holder.star.setOnClickListener(new OnClickListener(){
+		holder.action.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
@@ -69,10 +67,9 @@ public class UserHistoryAdapter extends ArrayAdapter<UserHistory>{
 		return convertView;
 	}
 	class ViewHolder{
-		ImageView icon;
 		TextView name;
-		TextView desc;
-		ImageView star;
+		TextView time;
+		ImageView action;
 	}
 	public OnStarClickListener getOnStarClickListener() {
 		return mOnStarClickListener;

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#555"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -15,6 +16,7 @@
             android:id="@+id/menu_user_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
             android:layout_margin="10dp"
             android:src="@drawable/ic_launcher" />
 
@@ -42,7 +44,7 @@
         android:id="@+id/menu_station"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-         android:padding="8dp"
+         android:padding="4dp"
         android:background="@drawable/selectable_background_onetv"
         android:gravity="left|center_vertical"
         android:text="@string/menu_station"
@@ -55,7 +57,7 @@
         android:id="@+id/menu_favorites"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:padding="4dp"
         android:background="@drawable/selectable_background_onetv"
         android:gravity="left|center_vertical"
         android:text="@string/menu_favorites"
@@ -68,7 +70,7 @@
         android:id="@+id/menu_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-         android:padding="8dp"
+         android:padding="4dp"
         android:background="@drawable/selectable_background_onetv"
         android:gravity="left|center_vertical"
         android:text="@string/menu_history"
@@ -82,7 +84,7 @@
         android:id="@+id/menu_remind"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:padding="4dp"
         android:background="@drawable/selectable_background_onetv"
         android:gravity="left|center_vertical"
         android:text="@string/menu_remind"

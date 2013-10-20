@@ -49,12 +49,12 @@ public class UserFavoriteFragment extends BaseContentFragment {
 	private UserFavoriteAdapter dataAdapter;
 	private int page=1;
 	private int pageSize=10;
-	private UserFavoriteService userHistoryService;
+	private UserFavoriteService userFavoriteService;
 	private StationService stationService;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		userHistoryService=new UserFavoriteService(this.getActivity());
+		userFavoriteService=new UserFavoriteService(this.getActivity());
 		stationService=new StationService(this.getActivity());
 	}
 	@Override
@@ -107,7 +107,7 @@ public class UserFavoriteFragment extends BaseContentFragment {
 
 			@Override
 			public void loadMoreData() {
-					getUserFavoriteList(page*pageSize,pageSize);
+					getUserFavoriteList((page-1)*pageSize,pageSize);
 					page++;
 				}
 		});
@@ -119,7 +119,7 @@ public class UserFavoriteFragment extends BaseContentFragment {
 		this.startActivity(intent);
 	}
 	protected void initData() {
-		getUserFavoriteList(page*pageSize,pageSize);
+		getUserFavoriteList((page-1)*pageSize,pageSize);
 	}
 	private void getUserFavoriteList(final long from,final long max){
 		new AsyncTask<Void,Void,List<UserFavorite>>(){
@@ -131,7 +131,7 @@ public class UserFavoriteFragment extends BaseContentFragment {
 
 			@Override
 			protected List<UserFavorite> doInBackground(Void... params) {
-				return userHistoryService.findList(from,  max);
+				return userFavoriteService.findList(from,  max);
 			}
 			@Override
 			protected void onPostExecute(List<UserFavorite> result) {

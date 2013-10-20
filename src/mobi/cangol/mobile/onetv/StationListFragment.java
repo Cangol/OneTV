@@ -17,10 +17,8 @@ package mobi.cangol.mobile.onetv;
 
 import java.util.List;
 
-import org.json.JSONObject;
-
 import mobi.cangol.mobile.onetv.adapter.StationAdapter;
-import mobi.cangol.mobile.onetv.adapter.StationAdapter.OnStarClickListener;
+import mobi.cangol.mobile.onetv.adapter.StationAdapter.OnActionClickListener;
 import mobi.cangol.mobile.onetv.api.ApiContants;
 import mobi.cangol.mobile.onetv.api.ApiHttpResult;
 import mobi.cangol.mobile.onetv.base.BaseContentFragment;
@@ -30,6 +28,9 @@ import mobi.cangol.mobile.onetv.log.Log;
 import mobi.cangol.mobile.onetv.view.ListViewTips;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter.OnLoadCallback;
+
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -95,15 +96,24 @@ public class StationListFragment extends BaseContentFragment {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Station item=dataAdapter.getItem(position);
-				playStation(item);
+				if("left".equals(StationListFragment.this.position)){
+					playStationF(item);
+				}else{
+					toStationProgram(item);
+				}
 			}
 			
 		});
-		dataAdapter.setOnStarClickListener(new OnStarClickListener(){
+		dataAdapter.setOnActionClickListener(new OnActionClickListener(){
 
 			@Override
 			public void onClick(View v, int position) {
-				
+				Station item=dataAdapter.getItem(position);
+				if("left".equals(StationListFragment.this.position)){
+					playStationF(item);
+				}else{
+					playStationA(item);
+				}
 			}
 			
 		});
@@ -122,16 +132,20 @@ public class StationListFragment extends BaseContentFragment {
 		});
 		initData();
 	}
-	private void playStation(Station station){
-		if("left".equals(position)){
-			Bundle bundle=new Bundle();
-			bundle.putSerializable("station", station);
-			this.setContentFragment(PlayVideoFragment.class, "PlayVideoFragment"+station.getId(), bundle);
-		}else{
-			Bundle bundle=new Bundle();
-			bundle.putSerializable("station", station);
-			this.setContentFragment(StationProgramFragment.class, "StationProgramFragment", bundle);
-		}
+	private void toStationProgram(Station station){
+		Bundle bundle=new Bundle();
+		bundle.putSerializable("station", station);
+		this.setContentFragment(StationProgramFragment.class, "StationProgramFragment", bundle);
+	}
+	private void playStationF(Station station){
+		Bundle bundle=new Bundle();
+		bundle.putSerializable("station", station);
+		this.setContentFragment(PlayVideoFragment.class, "PlayVideoFragment"+station.getId(), bundle);
+	}
+	private void playStationA(Station station){
+		Intent intent=new Intent(this.getActivity(),PlayerActivity.class);
+		intent.putExtra("station", station);
+		this.startActivity(intent);
 	}
 	protected void initData() {
 		getStationList((page-1)*pageSize,pageSize);
@@ -173,6 +187,7 @@ public class StationListFragment extends BaseContentFragment {
 			@Override	
 			protected void onPreExecute() {
 				super.onPreExecute();
+				listViewTips.showLoading();
 			}
 
 			@Override

@@ -8,16 +8,13 @@ import android.os.Bundle;
  */
 public abstract class BaseContentFragment extends BaseFragment{
 	
-	public void setTitle(String title){
-		BaseSlidingFragmentActivity bfActivity = (BaseSlidingFragmentActivity) this
-				.getActivity();
-		bfActivity.setTitle( title);
-	}
 	final public void setContentFragment(Class<? extends BaseContentFragment> fragmentClass,String tag,Bundle args) {
 		BaseSlidingFragmentActivity bfActivity = (BaseSlidingFragmentActivity) this
 				.getActivity();
 		bfActivity.setContentFragment(fragmentClass, tag,args);
-		bfActivity.toggle();
+		if(bfActivity.getSlidingMenu().isMenuShowing()){
+			bfActivity.toggle();
+		}
 	}
 	
 }

@@ -33,7 +33,7 @@ import android.widget.TextView;
  */
 public class StationAdapter extends ArrayAdapter<Station>{
 	private LayoutInflater mInflater;
-	private OnStarClickListener mOnStarClickListener;
+	private OnActionClickListener mOnActionClickListener;
 	public StationAdapter(Context context) {
 		super(null);
 		mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -57,17 +57,11 @@ public class StationAdapter extends ArrayAdapter<Station>{
 		holder.name.setText(item.getName());
 		holder.desc.setText(item.getDesc());
 		holder.icon.setImageResource(R.drawable.ic_launcher);
-		if(item.isFavorite()){
-			holder.star.setBackgroundResource(R.drawable.ic_star_selected);
-		}else{
-			holder.star.setBackgroundResource(R.drawable.ic_star_unselected);
-		}
-		
 		holder.star.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				mOnStarClickListener.onClick(v, position);
+				mOnActionClickListener.onClick(v, position);
 			}
 			
 		});
@@ -79,14 +73,14 @@ public class StationAdapter extends ArrayAdapter<Station>{
 		TextView desc;
 		ImageView star;
 	}
-	public OnStarClickListener getOnStarClickListener() {
-		return mOnStarClickListener;
+	public OnActionClickListener getOnActionClickListener() {
+		return mOnActionClickListener;
 	}
 
-	public void setOnStarClickListener(OnStarClickListener mOnStarClickListener) {
-		this.mOnStarClickListener = mOnStarClickListener;
+	public void setOnActionClickListener(OnActionClickListener mOnActionClickListener) {
+		this.mOnActionClickListener = mOnActionClickListener;
 	}
-	public interface OnStarClickListener{
+	public interface OnActionClickListener{
 		void onClick(View v,int position);
 	}
 }

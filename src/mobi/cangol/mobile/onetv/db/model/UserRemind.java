@@ -32,7 +32,9 @@ public class UserRemind  implements java.io.Serializable {
 	@DatabaseField  
 	private String id;
 	@DatabaseField  
-	private String lastPlayTime;
+	private String playTime;
+	@DatabaseField  
+	private String program;
 	@DatabaseField 
 	private String stationId;
 	@DatabaseField  
@@ -43,23 +45,27 @@ public class UserRemind  implements java.io.Serializable {
 	public UserRemind(){
 	}
 
+
 	/**
 	 * Creates a new instance of UserRemind. 
 	 * @param id
-	 * @param lastPlayTime
+	 * @param playTime
+	 * @param program
 	 * @param stationId
 	 * @param stationUrl
 	 * @param stationName
 	 */
-	public UserRemind(String id, String lastPlayTime, String stationId,
-			String stationUrl, String stationName) {
+	public UserRemind(String id, String playTime, String program,
+			String stationId, String stationUrl, String stationName) {
 		super();
 		this.id = id;
-		this.lastPlayTime = lastPlayTime;
+		this.playTime = playTime;
+		this.program = program;
 		this.stationId = stationId;
 		this.stationUrl = stationUrl;
 		this.stationName = stationName;
 	}
+
 
 	/**
 	 * @return the _id
@@ -88,20 +94,39 @@ public class UserRemind  implements java.io.Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
 
 	/**
-	 * @return the lastPlayTime
+	 * @return the playTime
 	 */
-	public String getLastPlayTime() {
-		return lastPlayTime;
+	public String getPlayTime() {
+		return playTime;
 	}
 
+
 	/**
-	 * @param lastPlayTime the lastPlayTime to set
+	 * @param playTime the playTime to set
 	 */
-	public void setLastPlayTime(String lastPlayTime) {
-		this.lastPlayTime = lastPlayTime;
+	public void setPlayTime(String playTime) {
+		this.playTime = playTime;
 	}
+
+
+	/**
+	 * @return the program
+	 */
+	public String getProgram() {
+		return program;
+	}
+
+
+	/**
+	 * @param program the program to set
+	 */
+	public void setProgram(String program) {
+		this.program = program;
+	}
+
 
 	/**
 	 * @return the stationId

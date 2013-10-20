@@ -18,7 +18,7 @@ package mobi.cangol.mobile.onetv;
 import java.util.List;
 
 import mobi.cangol.mobile.onetv.adapter.UserRemindAdapter;
-import mobi.cangol.mobile.onetv.adapter.UserRemindAdapter.OnStarClickListener;
+import mobi.cangol.mobile.onetv.adapter.UserRemindAdapter.OnActionClickListener;
 import mobi.cangol.mobile.onetv.base.BaseContentFragment;
 import mobi.cangol.mobile.onetv.db.UserRemindService;
 import mobi.cangol.mobile.onetv.db.model.UserRemind;
@@ -87,7 +87,7 @@ public class UserRemindFragment extends BaseContentFragment {
 			}
 			
 		});
-		dataAdapter.setOnStarClickListener(new OnStarClickListener(){
+		dataAdapter.setOnActionClickListener(new OnActionClickListener(){
 
 			@Override
 			public void onClick(View v, int position) {
@@ -104,7 +104,7 @@ public class UserRemindFragment extends BaseContentFragment {
 
 			@Override
 			public void loadMoreData() {
-					getUserRemindList(page*pageSize,pageSize);
+					getUserRemindList((page-1)*pageSize,pageSize);
 					page++;
 				}
 		});
@@ -114,7 +114,7 @@ public class UserRemindFragment extends BaseContentFragment {
 		
 	}
 	protected void initData() {
-		getUserRemindList(page*pageSize,pageSize);
+		getUserRemindList((page-1)*pageSize,pageSize);
 	}
 	private void getUserRemindList(final long from,final long max){
 		new AsyncTask<Void,Void,List<UserRemind>>(){
