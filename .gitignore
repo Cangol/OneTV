@@ -18,3 +18,11 @@ local.properties
 # Eclipse project files
 .classpath
 .project
+/ant.properties
+/build_all.xml
+/build.xml
+/cangol.keystore
+/channel.properties
+/custom_rules.xml
+/AndroidManifest.tmpl
+/channel.txt
