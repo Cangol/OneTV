@@ -56,7 +56,7 @@ public class StationListFragment extends BaseContentFragment {
 	private ListViewTips listViewTips;
 	private LoadMoreAdapter<Station> loadMoreAdapter;
 	private StationAdapter dataAdapter;
-	private int page=0;
+	private int page=1;
 	private int pageSize=10;
 	private StationService stationService;
 	private String position;
@@ -74,6 +74,12 @@ public class StationListFragment extends BaseContentFragment {
 		findViews(v);
 		initViews(savedInstanceState);
 		return v;
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		initData(savedInstanceState);
 	}
 
 	@Override
@@ -121,16 +127,15 @@ public class StationListFragment extends BaseContentFragment {
 
 			@Override
 			public boolean hasNext(int count) {
-				return count>=page*pageSize;
+				return count==page*pageSize;
 			}
 
 			@Override
 			public void loadMoreData() {
+				    page++;
 					getStationList((page-1)*pageSize,pageSize);
-					page++;
 				}
 		});
-		initData();
 	}
 	private void toStationProgram(Station station){
 		Bundle bundle=new Bundle();
@@ -147,39 +152,55 @@ public class StationListFragment extends BaseContentFragment {
 		intent.putExtra("station", station);
 		this.startActivity(intent);
 	}
-	protected void initData() {
+
+	@Override
+	protected void initData(Bundle savedInstanceState) {
 		getStationList((page-1)*pageSize,pageSize);
-//		AsyncHttpClient client=new AsyncHttpClient();
-//		RequestParams params=new RequestParams(ApiContants.stationSync(""));
-//		client.get(ApiContants.URL_STATION_SYNC, params, new JsonHttpResponseHandler(){
-//
-//			@Override
-//			public void onSuccess(JSONObject response) {
-//				super.onSuccess(response);
-//				Log.d(response.toString());
-//				ApiHttpResult<Station> result=ApiHttpResult.parserObject(Station.class, response);
-//				List<Station> list=result.getList();
-//				for(Station station:list){
-//					stationService.save(station);
-//				}
-//			}
-//
-//			@Override
-//			public void onFailure(Throwable error, String content) {
-//				super.onFailure(error, content);
-//			}
-//
-//			@Override
-//			public void onFinish() {
-//				super.onFinish();
-//			}
-//
-//			@Override
-//			public void onStart() {
-//				super.onStart();
-//			}
-//			
-//		});
+	}
+	private void updateView(List<Station> list){
+		if(page==1){
+			dataAdapter.clear();
+		}
+		dataAdapter.addAll(list);
+		if(dataAdapter.getCount()>0){
+			listViewTips.showContent();
+		}else{
+			listViewTips.showEmpty();
+		}
+		loadMoreAdapter.addMoreComplete();
+	}
+	protected void initData() {
+		AsyncHttpClient client=new AsyncHttpClient();
+		RequestParams params=new RequestParams(ApiContants.stationSync(""));
+		client.get(ApiContants.URL_STATION_SYNC, params, new JsonHttpResponseHandler(){
+
+			@Override
+			public void onSuccess(JSONObject response) {
+				super.onSuccess(response);
+				Log.d(response.toString());
+				ApiHttpResult<Station> result=ApiHttpResult.parserObject(Station.class, response);
+				List<Station> list=result.getList();
+				for(Station station:list){
+					stationService.save(station);
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable error, String content) {
+				super.onFailure(error, content);
+			}
+
+			@Override
+			public void onFinish() {
+				super.onFinish();
+			}
+
+			@Override
+			public void onStart() {
+				super.onStart();
+			}
+			
+		});
 	}
 	private void getStationList(final long from,final long max){
 		new AsyncTask<Void,Void,List<Station>>(){
@@ -201,22 +222,7 @@ public class StationListFragment extends BaseContentFragment {
 			}
 		}.execute();
 	}
-	private void updateView(List<Station> list){
-		if(page==1){
-			dataAdapter.clear();
-		}
-		dataAdapter.addAll(list);
-		if(dataAdapter.getCount()>0){
-			listViewTips.showContent();
-		}else{
-			listViewTips.showEmpty();
-		}
-		loadMoreAdapter.addMoreComplete();
+	public boolean isCleanStack(){
+		return true;
 	}
-
-	@Override
-	protected void initData(Bundle savedInstanceState) {
-		
-	}
-	
 }

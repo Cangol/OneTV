@@ -115,7 +115,7 @@ public class UserFavoriteFragment extends BaseContentFragment {
 	}
 	private void playStation(UserFavorite userFavorite){
 		Intent intent=new Intent(this.getActivity(),PlayerActivity.class);
-		intent.putExtra("station", stationService.findByStationoId(userFavorite.getId()));
+		intent.putExtra("station", stationService.findByStationoId(userFavorite.getStationId()));
 		this.startActivity(intent);
 	}
 	protected void initData() {

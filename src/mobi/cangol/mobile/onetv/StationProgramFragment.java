@@ -166,12 +166,12 @@ public class StationProgramFragment extends BaseContentFragment {
 	}
 	private void playStation(Station station){
 			Intent intent=new Intent(this.getActivity(),PlayerActivity.class);
-			intent.putExtra("station", "right");
+			intent.putExtra("station", station);
 			this.startActivity(intent);
 	}
 	protected void getStationProgram() {
 		AsyncHttpClient client=new AsyncHttpClient();
-		RequestParams params=new RequestParams(ApiContants.stationProgram("214", TimeUtils.getCurrentDate(), ""));
+		RequestParams params=new RequestParams(ApiContants.stationProgram(station.getId(), TimeUtils.getCurrentDate(), ""));
 		client.get(ApiContants.URL_STATION_PROGRAM, params, new AsyncHttpResponseHandler(){
 
 			@Override

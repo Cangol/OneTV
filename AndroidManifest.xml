@@ -13,7 +13,7 @@
      <!-- 渠道信息 -->
     <meta-data android:name="CHANNEL" android:value="${channel_id}"/>
      <!-- build日期 -->
-     <meta-data android:name="BUILD_DATE" android:value="20131020"/>
+     <meta-data android:name="BUILD_DATE" android:value="20131027"/>
     <application
         android:icon="@drawable/ic_launcher"
         android:name=".MobileApplication"

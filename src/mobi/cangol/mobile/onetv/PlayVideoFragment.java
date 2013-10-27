@@ -19,7 +19,6 @@ import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.MediaPlayer.OnBufferingUpdateListener;
 import io.vov.vitamio.MediaPlayer.OnErrorListener;
 import io.vov.vitamio.MediaPlayer.OnInfoListener;
-import io.vov.vitamio.widget.MediaController;
 import io.vov.vitamio.widget.VideoView;
 import mobi.cangol.mobile.onetv.base.BaseContentFragment;
 import mobi.cangol.mobile.onetv.db.UserHistoryService;

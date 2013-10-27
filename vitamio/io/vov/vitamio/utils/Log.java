@@ -20,11 +20,12 @@ import java.util.MissingFormatArgumentException;
 import mobi.cangol.mobile.onetv.BuildConfig;
 
 public class Log {
+	public static final boolean DEBUG =false;
 	public static final String TAG = "Vitamio[Player]";
 
 	public static void i(String msg, Object... args) {
 		try {
-			if (BuildConfig.DEBUG) 
+			if (DEBUG) 
 				android.util.Log.i(TAG, String.format(msg, args));
 		} catch (MissingFormatArgumentException e) {
 			android.util.Log.e(TAG, "vitamio.Log", e);
@@ -34,7 +35,7 @@ public class Log {
 
 	public static void d(String msg, Object... args) {
 		try {
-			if (BuildConfig.DEBUG) 
+			if (DEBUG) 
 				android.util.Log.d(TAG, String.format(msg, args));
 		} catch (MissingFormatArgumentException e) {
 			android.util.Log.e(TAG, "vitamio.Log", e);
