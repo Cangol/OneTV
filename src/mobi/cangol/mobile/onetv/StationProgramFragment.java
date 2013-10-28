@@ -177,7 +177,7 @@ public class StationProgramFragment extends BaseContentFragment {
 			@Override
 			public void onSuccess(String response) {
 				super.onSuccess(response);
-				Log.d(response.toString());
+				Log.d(response);
 				CommSAXParserUtil parserUtil=new CommSAXParserUtil();
 				WebServicesFeed feed=(WebServicesFeed)parserUtil.getFeed(CommSAXParserUtil.WEBSERVICES_HANDLER, response);
 				if(feed==null){

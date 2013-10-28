@@ -15,11 +15,13 @@
  */
 package mobi.cangol.mobile.onetv;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import mobi.cangol.mobile.onetv.adapter.StationAdapter;
 import mobi.cangol.mobile.onetv.adapter.StationAdapter.OnActionClickListener;
-import mobi.cangol.mobile.onetv.api.ApiContants;
 import mobi.cangol.mobile.onetv.api.ApiHttpResult;
 import mobi.cangol.mobile.onetv.base.BaseContentFragment;
 import mobi.cangol.mobile.onetv.db.StationService;
@@ -29,10 +31,13 @@ import mobi.cangol.mobile.onetv.view.ListViewTips;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter.OnLoadCallback;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources.NotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -41,10 +46,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-
-import com.cangol.mobile.http.AsyncHttpClient;
-import com.cangol.mobile.http.JsonHttpResponseHandler;
-import com.cangol.mobile.http.RequestParams;
 
 /**
  * @Description StationFragment.java 
@@ -134,7 +135,7 @@ public class StationListFragment extends BaseContentFragment {
 			public void loadMoreData() {
 				    page++;
 					getStationList((page-1)*pageSize,pageSize);
-				}
+		     }
 		});
 	}
 	private void toStationProgram(Station station){
@@ -155,13 +156,14 @@ public class StationListFragment extends BaseContentFragment {
 
 	@Override
 	protected void initData(Bundle savedInstanceState) {
+		initData();
 		getStationList((page-1)*pageSize,pageSize);
 	}
 	private void updateView(List<Station> list){
 		if(page==1){
 			dataAdapter.clear();
 		}
-		dataAdapter.addAll(list);
+		loadMoreAdapter.addMoreData(list);
 		if(dataAdapter.getCount()>0){
 			listViewTips.showContent();
 		}else{
@@ -169,40 +171,68 @@ public class StationListFragment extends BaseContentFragment {
 		}
 		loadMoreAdapter.addMoreComplete();
 	}
+	public  String inputStream2String(InputStream   is)   throws   IOException{ 
+        ByteArrayOutputStream   baos   =   new   ByteArrayOutputStream(); 
+        int   i=-1; 
+        while((i=is.read())!=-1){ 
+        	baos.write(i); 
+        } 
+       return   baos.toString(); 
+}
 	protected void initData() {
-		AsyncHttpClient client=new AsyncHttpClient();
-		RequestParams params=new RequestParams(ApiContants.stationSync(""));
-		client.get(ApiContants.URL_STATION_SYNC, params, new JsonHttpResponseHandler(){
-
-			@Override
-			public void onSuccess(JSONObject response) {
-				super.onSuccess(response);
-				Log.d(response.toString());
-				ApiHttpResult<Station> result=ApiHttpResult.parserObject(Station.class, response);
-				List<Station> list=result.getList();
-				for(Station station:list){
-					stationService.save(station);
-				}
-			}
-
-			@Override
-			public void onFailure(Throwable error, String content) {
-				super.onFailure(error, content);
-			}
-
-			@Override
-			public void onFinish() {
-				super.onFinish();
-			}
-
-			@Override
-			public void onStart() {
-				super.onStart();
-			}
-			
-		});
+		SharedPreferences sp = this.getActivity().getSharedPreferences("SP", Context.MODE_PRIVATE);
+		if(sp.getBoolean("tv", false))return;
+		String response =null;
+		ApiHttpResult<Station> result = null;
+		try {
+			response =inputStream2String(this.getResources().openRawResource(R.raw.tv));
+			result = ApiHttpResult.parserObject(Station.class, new JSONObject(response));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (NotFoundException e) {	
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		List<Station> list=result.getList();
+		for(Station station:list){
+			stationService.save(station);
+		}
+		sp.edit().putBoolean("tv", true);
+//		AsyncHttpClient client=new AsyncHttpClient();
+//		RequestParams params=new RequestParams(ApiContants.stationSync(""));
+//		client.get(ApiContants.URL_STATION_SYNC, params, new JsonHttpResponseHandler(){
+//
+//			@Override
+//			public void onSuccess(JSONObject response) {
+//				super.onSuccess(response);
+//				Log.d(response.toString());
+//				ApiHttpResult<Station> result=ApiHttpResult.parserObject(Station.class, response);
+//				List<Station> list=result.getList();
+//				for(Station station:list){
+//					stationService.save(station);
+//				}
+//			}
+//
+//			@Override
+//			public void onFailure(Throwable error, String content) {
+//				super.onFailure(error, content);
+//			}
+//
+//			@Override
+//			public void onFinish() {
+//				super.onFinish();
+//			}
+//
+//			@Override
+//			public void onStart() {
+//				super.onStart();
+//			}
+//			
+//		});
 	}
 	private void getStationList(final long from,final long max){
+		Log.d(TAG, "from ="+from+"max="+max);
 		new AsyncTask<Void,Void,List<Station>>(){
 
 			@Override	
@@ -218,6 +248,7 @@ public class StationListFragment extends BaseContentFragment {
 			@Override
 			protected void onPostExecute(List<Station> result) {
 				super.onPostExecute(result);
+				Log.d(TAG, "from ="+from+"max="+max+"result="+result.size());
 				updateView(result);
 			}
 		}.execute();
