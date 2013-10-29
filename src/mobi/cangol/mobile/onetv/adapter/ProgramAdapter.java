@@ -35,7 +35,7 @@ public class ProgramAdapter extends ArrayAdapter<Program>{
 	private LayoutInflater mInflater;
 	private OnActionClickListener mOnActionClickListener;
 	public ProgramAdapter(Context context) {
-		super(null);
+		super(context);
 		mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	@Override

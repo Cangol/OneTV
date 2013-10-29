@@ -169,4 +169,7 @@ public abstract class BaseFragment extends Fragment{
 		if(getSupportActionBar()!=null)
 		getSupportActionBar().setTitle(title);
 	}
+	public boolean isSingleton() {
+		return false;
+	}
 }

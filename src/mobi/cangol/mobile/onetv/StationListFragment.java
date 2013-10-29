@@ -27,7 +27,7 @@ import mobi.cangol.mobile.onetv.base.BaseContentFragment;
 import mobi.cangol.mobile.onetv.db.StationService;
 import mobi.cangol.mobile.onetv.db.model.Station;
 import mobi.cangol.mobile.onetv.log.Log;
-import mobi.cangol.mobile.onetv.view.ListViewTips;
+import mobi.cangol.mobile.onetv.view.PromptView;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter.OnLoadCallback;
 
@@ -54,7 +54,7 @@ import android.widget.ListView;
  */
 public class StationListFragment extends BaseContentFragment {
 	private ListView listView;
-	private ListViewTips listViewTips;
+	private PromptView promptView;
 	private LoadMoreAdapter<Station> loadMoreAdapter;
 	private StationAdapter dataAdapter;
 	private int page=1;
@@ -86,7 +86,7 @@ public class StationListFragment extends BaseContentFragment {
 	@Override
 	protected void findViews(View view) {
 		listView= (ListView) view.findViewById(R.id.listview);
-		listViewTips=(ListViewTips) view.findViewById(R.id.listViewTips);
+		promptView=(PromptView) view.findViewById(R.id.promptView);
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class StationListFragment extends BaseContentFragment {
 		this.setTitle(R.string.menu_station);
 		LayoutInflater mInflater=(LayoutInflater) this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		dataAdapter = new StationAdapter(this.getActivity());
-		loadMoreAdapter = new LoadMoreAdapter<Station>(dataAdapter,mInflater.inflate(R.layout.commons_list_view_footer,null));
+		loadMoreAdapter = new LoadMoreAdapter<Station>(dataAdapter,mInflater.inflate(R.layout.common_view_footer,null));
 		loadMoreAdapter.setAbsListView(listView);
 		listView.setAdapter(loadMoreAdapter);
 		listView.setOnItemClickListener(new OnItemClickListener(){
@@ -128,7 +128,7 @@ public class StationListFragment extends BaseContentFragment {
 
 			@Override
 			public boolean hasNext(int count) {
-				return count==page*pageSize;
+				return count>=page*pageSize;
 			}
 
 			@Override
@@ -164,10 +164,10 @@ public class StationListFragment extends BaseContentFragment {
 			dataAdapter.clear();
 		}
 		loadMoreAdapter.addMoreData(list);
-		if(dataAdapter.getCount()>0){
-			listViewTips.showContent();
+		if(loadMoreAdapter.getCount()>0){
+			promptView.showContent();
 		}else{
-			listViewTips.showEmpty();
+			promptView.showEmpty();
 		}
 		loadMoreAdapter.addMoreComplete();
 	}
@@ -238,7 +238,8 @@ public class StationListFragment extends BaseContentFragment {
 			@Override	
 			protected void onPreExecute() {
 				super.onPreExecute();
-				listViewTips.showLoading();
+				if(from==0)
+				promptView.showLoading();
 			}
 
 			@Override

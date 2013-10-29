@@ -4,14 +4,14 @@ import mobi.cangol.mobile.onetv.MobileApplication;
 import mobi.cangol.mobile.onetv.R;
 import mobi.cangol.mobile.onetv.navigation.SlidingFragmentActivity;
 import mobi.cangol.mobile.onetv.navigation.SlidingMenu;
+import mobi.cangol.mobile.onetv.navigation.SlidingMenu.OnClosedListener;
+import mobi.cangol.mobile.onetv.navigation.SlidingMenu.OnOpenedListener;
 import mobi.cangol.mobile.onetv.utils.Contants;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.WindowManager;
 /**
@@ -43,6 +43,23 @@ public abstract class BaseSlidingFragmentActivity extends SlidingFragmentActivit
 		sm.setBehindWidthRes(R.dimen.behindWidth);
 		sm.setFadeDegree(0.35f);
 		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		sm.setOnClosedListener(new OnClosedListener(){
+
+			@Override
+			public void onClosed() {
+				getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			}
+			
+		});
+		sm.setOnOpenedListener(new OnOpenedListener(){
+
+			@Override
+			public void onOpened() {
+				getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+			}
+			
+		});
 		stack = FragmentStackManager.forContainer(this, R.id.content_frame,this.getSupportFragmentManager());
 		if(savedInstanceState==null){
 		}else{

@@ -35,7 +35,7 @@ public class UserHistoryAdapter extends ArrayAdapter<UserHistory>{
 	private LayoutInflater mInflater;
 	private OnStarClickListener mOnStarClickListener;
 	public UserHistoryAdapter(Context context) {
-		super(null);
+		super(context);
 		mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	@Override

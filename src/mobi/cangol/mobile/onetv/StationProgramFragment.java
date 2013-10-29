@@ -32,7 +32,7 @@ import mobi.cangol.mobile.onetv.db.model.Station;
 import mobi.cangol.mobile.onetv.db.model.UserFavorite;
 import mobi.cangol.mobile.onetv.db.model.UserRemind;
 import mobi.cangol.mobile.onetv.log.Log;
-import mobi.cangol.mobile.onetv.view.ListViewTips;
+import mobi.cangol.mobile.onetv.view.PromptView;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter.OnLoadCallback;
 import android.content.Context;
@@ -62,7 +62,7 @@ public class StationProgramFragment extends BaseContentFragment {
 	private ImageView logoImg;
 	private ImageView favoriteImg;
 	private ListView listView;
-	private ListViewTips listViewTips;
+	private PromptView listViewTips;
 	private LoadMoreAdapter<Program> loadMoreAdapter;
 	private ProgramAdapter dataAdapter;
 	private Station station;
@@ -92,7 +92,7 @@ public class StationProgramFragment extends BaseContentFragment {
 		logoImg=(ImageView) view.findViewById(R.id.station_logo);
 		favoriteImg=(ImageView) view.findViewById(R.id.station_favorite);
 		listView= (ListView) view.findViewById(R.id.listview);
-		listViewTips=(ListViewTips) view.findViewById(R.id.listViewTips);
+		listViewTips=(PromptView) view.findViewById(R.id.promptView);
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class StationProgramFragment extends BaseContentFragment {
 		this.setTitle(station.getName());
 		LayoutInflater mInflater=(LayoutInflater) this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		dataAdapter = new ProgramAdapter(this.getActivity());
-		loadMoreAdapter = new LoadMoreAdapter<Program>(dataAdapter,mInflater.inflate(R.layout.commons_list_view_footer,null));
+		loadMoreAdapter = new LoadMoreAdapter<Program>(dataAdapter,mInflater.inflate(R.layout.common_view_footer,null));
 		loadMoreAdapter.setAbsListView(listView);
 		listView.setAdapter(loadMoreAdapter);
 		dataAdapter.setOnActionClickListener(new OnActionClickListener(){

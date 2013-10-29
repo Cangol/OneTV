@@ -35,7 +35,7 @@ public class StationAdapter extends ArrayAdapter<Station>{
 	private LayoutInflater mInflater;
 	private OnActionClickListener mOnActionClickListener;
 	public StationAdapter(Context context) {
-		super(null);
+		super(context);
 		mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	@Override

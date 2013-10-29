@@ -1,3 +1,5 @@
+package mobi.cangol.mobile.onetv.view;
+
 /*
  * Copyright 2013 Niek Haarman
  *
@@ -13,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mobi.cangol.mobile.onetv.view;
 
 import android.database.DataSetObserver;
 import android.view.View;

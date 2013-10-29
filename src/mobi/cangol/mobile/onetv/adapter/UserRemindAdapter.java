@@ -35,7 +35,7 @@ public class UserRemindAdapter extends ArrayAdapter<UserRemind>{
 	private LayoutInflater mInflater;
 	private OnActionClickListener mOnActionClickListener;
 	public UserRemindAdapter(Context context) {
-		super(null);
+		super(context);
 		mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	@Override

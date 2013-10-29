@@ -1,36 +1,54 @@
 package mobi.cangol.mobile.onetv.view;
 
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.widget.BaseAdapter;
 
 /**
  * A true ArrayList adapter providing access to all ArrayList methods.
  */
 public abstract class ArrayAdapter<T> extends BaseAdapter {
-
+	protected LayoutInflater mInflater;
+	protected Context mContext;
 	private ArrayList<T> mItems;
-	public static final int TYPE_SELECT = 0;
-	public static final int TYPE_UNSELECT = 1;
-
-	public ArrayAdapter() {
-		this(null);
+	public static final int TYPE_SELECT = 1;
+	public static final int TYPE_UNSELECT = 0;
+	protected boolean isEditMode;
+	public ArrayAdapter(Context context) {
+		this(context,null);
 	}
-
 	/**
 	 * Creates a new ArrayAdapter with the specified list, or an empty list if
 	 * items == null.
 	 */
-	public ArrayAdapter(List<T> items) {
+	public ArrayAdapter(Context context,List<T> items) {
+		mContext=context;
+		mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mItems = new ArrayList<T>();
 		if (items != null) {
 			mItems.addAll(items);
 		}
 	}
-
+	public boolean isEditMode() {
+		return isEditMode;
+	}
+	public void setEditMode(boolean isEditMode) {
+		this.isEditMode = isEditMode;
+		this.clearSelected();
+		notifyDataSetChanged();
+	}
+	public ArrayList<T> getItems() {
+		return mItems;
+	}
+	public void setItems(ArrayList<T> mItems) {
+		this.mItems = mItems;
+	}
 	@Override
 	public int getCount() {
 		return mItems.size();
@@ -121,8 +139,8 @@ public abstract class ArrayAdapter<T> extends BaseAdapter {
 	 * Removes the specified element from the list
 	 */
 	public void remove(T item) {
-		clearSelected(item);
 		mItems.remove(item);
+		mSelect.remove(item);
 		notifyDataSetChanged();
 	}
 
@@ -130,8 +148,8 @@ public abstract class ArrayAdapter<T> extends BaseAdapter {
 	 * Removes the element at the specified position in the list
 	 */
 	public void remove(int position) {
-		clearSelected(position);
 		mItems.remove(position);
+		mSelect.remove(position);
 		notifyDataSetChanged();
 	}
 
@@ -143,8 +161,8 @@ public abstract class ArrayAdapter<T> extends BaseAdapter {
 		Collections.sort(positionsList);
 		Collections.reverse(positionsList);
 		for (int position : positionsList) {
-			clearSelected(position);
 			mItems.remove(position);
+			mSelect.remove(position);
 		}
 		notifyDataSetChanged();
 	}
@@ -154,8 +172,8 @@ public abstract class ArrayAdapter<T> extends BaseAdapter {
 	 * specified collection
 	 */
 	public void removeAll(Collection<T> items) {
-		clearSelected(items);
 		mItems.removeAll(items);
+		mSelect.removeAll(items);
 		notifyDataSetChanged();
 	}
 
@@ -181,6 +199,12 @@ public abstract class ArrayAdapter<T> extends BaseAdapter {
 
 	private List<T> mSelect = new ArrayList<T>();
 
+	public boolean getItemSelected(int position) {
+		if(getItemViewSelectType(position)==TYPE_SELECT){
+			return true;
+		}
+		return false;
+	}
 	public int getItemViewSelectType(int position) {
 		return mSelect.contains(getItem(position)) ? TYPE_SELECT : TYPE_UNSELECT;
 	}

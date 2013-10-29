@@ -1,12 +1,17 @@
 package mobi.cangol.mobile.onetv.view;
 
+
 import java.util.List;
 
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
-
+/**
+ * @Description:
+ * @version $Revision: 1.0 $
+ * @author xuewu.wei
+ */
 public class LoadMoreAdapter<T> extends BaseAdapterDecorator {
 	private OnLoadCallback mOnLoadCallback;
 	private View mFooterView;

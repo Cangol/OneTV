@@ -37,7 +37,7 @@ public class UserFavoriteAdapter extends ArrayAdapter<UserFavorite>{
 	private LayoutInflater mInflater;
 	private OnStarClickListener mOnStarClickListener;
 	public UserFavoriteAdapter(Context context) {
-		super(null);
+		super(context);
 		mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	@Override

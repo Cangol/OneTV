@@ -22,7 +22,7 @@ import mobi.cangol.mobile.onetv.adapter.UserRemindAdapter.OnActionClickListener;
 import mobi.cangol.mobile.onetv.base.BaseContentFragment;
 import mobi.cangol.mobile.onetv.db.UserRemindService;
 import mobi.cangol.mobile.onetv.db.model.UserRemind;
-import mobi.cangol.mobile.onetv.view.ListViewTips;
+import mobi.cangol.mobile.onetv.view.PromptView;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter.OnLoadCallback;
 import android.content.Context;
@@ -42,7 +42,7 @@ import android.widget.ListView;
  */
 public class UserRemindFragment extends BaseContentFragment {
 	private ListView listView;
-	private ListViewTips listViewTips;
+	private PromptView listViewTips;
 	private LoadMoreAdapter<UserRemind> loadMoreAdapter;
 	private UserRemindAdapter dataAdapter;
 	private int page=1;
@@ -66,7 +66,7 @@ public class UserRemindFragment extends BaseContentFragment {
 	@Override
 	protected void findViews(View view) {
 		listView= (ListView) view.findViewById(R.id.listview);
-		listViewTips=(ListViewTips) view.findViewById(R.id.listViewTips);
+		listViewTips=(PromptView) view.findViewById(R.id.promptView);
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class UserRemindFragment extends BaseContentFragment {
 		this.setTitle(R.string.menu_remind);
 		LayoutInflater mInflater=(LayoutInflater) this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		dataAdapter = new UserRemindAdapter(this.getActivity());
-		loadMoreAdapter = new LoadMoreAdapter<UserRemind>(dataAdapter,mInflater.inflate(R.layout.commons_list_view_footer,null));
+		loadMoreAdapter = new LoadMoreAdapter<UserRemind>(dataAdapter,mInflater.inflate(R.layout.common_view_footer,null));
 		loadMoreAdapter.setAbsListView(listView);
 		listView.setAdapter(loadMoreAdapter);
 		listView.setOnItemClickListener(new OnItemClickListener(){
