@@ -87,6 +87,7 @@ public class FragmentStackManager {
 						}
 						//fragmentManager.popBackStackImmediate();
 					}
+					stack.peek().setArguments(args);
 					attachFragment(stack.peek(),tag);
 				}
 				return;
@@ -133,6 +134,7 @@ public class FragmentStackManager {
 			}else if (!fragment.isAdded()){
 				beginTransaction()
 				.replace(containerId, fragment, tag);
+				
 //				if(stack.size()>0){
 //					beginTransaction().addToBackStack(tag);
 //				}

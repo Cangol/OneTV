@@ -61,7 +61,6 @@ public class StationAdapter extends ArrayAdapter<Station>{
 		
 		holder.name.setText(item.getName());
 		if(isLeft){
-			holder.icon.setVisibility(View.GONE);
 			holder.desc.setVisibility(View.GONE);
 			holder.star.setVisibility(View.GONE);
 		}
