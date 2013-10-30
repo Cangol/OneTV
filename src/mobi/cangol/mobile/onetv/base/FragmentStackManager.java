@@ -24,6 +24,7 @@ public class FragmentStackManager {
 	private int containerId;
 	private FragmentActivity fActivity;
 	private Handler handler;
+	
 	private final Runnable execPendingTransactions = new Runnable() {
 		    @Override
 		    public void run() {
@@ -109,6 +110,7 @@ public class FragmentStackManager {
 				}
 			}
 		}
+		//clear();
 		attachFragment(fragment,tag);
 		synchronized(lock){
 			stack.add(fragment);
@@ -141,7 +143,26 @@ public class FragmentStackManager {
 			Log.i(STATE_TAG, "fragment is null");
 		}
 	}
+	private void detachFragment(Fragment fragment) {
+	    if (fragment != null && !fragment.isDetached()) {
+	    	beginTransaction();
+	      fragmentTransaction.detach(fragment);
+	    }
+	 }
 	
+	private void clear() {
+		if(stack.size()>0){
+			Fragment first = stack.firstElement();
+			for (Fragment fragment : stack) {
+				if (fragment == first) {
+					detachFragment(fragment);
+				} else {
+					removeFragment(fragment);
+				}
+			}
+		}
+		stack.clear();
+	}
 	public BaseFragment peek() {
 		return stack.peek();
 	}

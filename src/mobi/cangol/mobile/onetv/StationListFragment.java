@@ -94,6 +94,9 @@ public class StationListFragment extends BaseContentFragment {
 		this.setTitle(R.string.menu_station);
 		LayoutInflater mInflater=(LayoutInflater) this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		dataAdapter = new StationAdapter(this.getActivity());
+		if("left".equals(position)){
+			dataAdapter.setLeft(true);
+		}
 		loadMoreAdapter = new LoadMoreAdapter<Station>(dataAdapter,mInflater.inflate(R.layout.common_view_footer,null));
 		loadMoreAdapter.setAbsListView(listView);
 		listView.setAdapter(loadMoreAdapter);
@@ -156,7 +159,7 @@ public class StationListFragment extends BaseContentFragment {
 
 	@Override
 	protected void initData(Bundle savedInstanceState) {
-		initData();
+		//initData();
 		getStationList((page-1)*pageSize,pageSize);
 	}
 	private void updateView(List<Station> list){

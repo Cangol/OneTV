@@ -49,6 +49,19 @@ public abstract class BaseFragment extends Fragment{
 			if(null!=stack)stack.restoreState(savedInstanceState);
 		}
 	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title=title;
+		if(getSupportActionBar()!=null)
+		getSupportActionBar().setTitle(title);
+	}
+	public void setTitle(int title) {
+		this.title=getString(title);
+		if(getSupportActionBar()!=null)
+		getSupportActionBar().setTitle(title);
+	}
 	protected void initFragmentStack(int containerId){
 		if(null==stack)
 		stack = FragmentStackManager.forContainer(this.getActivity(), containerId,this.getChildFragmentManager());
@@ -64,6 +77,7 @@ public abstract class BaseFragment extends Fragment{
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		if(LIFECYCLE)Log.v(TAG, "onViewCreated");
+		if(null!=title)this.setTitle(title);
 	}
 
 	@Override
@@ -155,19 +169,6 @@ public abstract class BaseFragment extends Fragment{
 	}
 	public void replaceChildFragment(Class<? extends BaseFragment> fragmentClass,String tag,Bundle args) {
 		stack.replace(fragmentClass, tag,args);
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title=title;
-		if(getSupportActionBar()!=null)
-		getSupportActionBar().setTitle(title);
-	}
-	public void setTitle(int title) {
-		this.title=getString(title);
-		if(getSupportActionBar()!=null)
-		getSupportActionBar().setTitle(title);
 	}
 	public boolean isSingleton() {
 		return false;

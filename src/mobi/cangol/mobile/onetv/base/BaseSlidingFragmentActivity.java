@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.WindowManager;
 /**
  * @Description:
@@ -44,6 +45,7 @@ public abstract class BaseSlidingFragmentActivity extends SlidingFragmentActivit
 		sm.setFadeDegree(0.35f);
 		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
 		sm.setOnClosedListener(new OnClosedListener(){
 
 			@Override
@@ -67,7 +69,15 @@ public abstract class BaseSlidingFragmentActivity extends SlidingFragmentActivit
 		}
 		
 	}
-
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    case android.R.id.home:
+	    	this.toggle();
+	        return true;
+	    }
+	    return super.onOptionsItemSelected(item);
+	}
 	final public void setMenuFragment(Class<? extends BaseContentFragment> fragmentClass,String tag,Bundle args) {
 		menuFragment = (BaseContentFragment) Fragment.instantiate(this,fragmentClass.getName(), args);
 		FragmentTransaction t = this.getSupportFragmentManager()
@@ -147,6 +157,28 @@ public abstract class BaseSlidingFragmentActivity extends SlidingFragmentActivit
 	public Object onRetainCustomNonConfigurationInstance() {
 		if(LIFECYCLE)Log.v(TAG, "onRetainCustomNonConfigurationInstance");
 		return super.onRetainCustomNonConfigurationInstance();
+	}
+	@Override
+	public boolean onSupportNavigateUp() {
+		if(LIFECYCLE)
+			Log.v(TAG, "onSupportNavigateUp");
+		if (getSlidingMenu().isMenuShowing()) {
+			this.toggle();
+			return true;
+		} else {
+			if (stack.size() <= 1) {
+				this.showMenu();
+				return true;
+			} else {
+				if (stack.peek().onSupportNavigateUp()) {
+					return true;
+				} else {
+						stack.pop();
+					return true;
+				}
+			}
+		}
+		
 	}
 	@Override
 	final public void onBackPressed() {

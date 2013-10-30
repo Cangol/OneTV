@@ -34,10 +34,15 @@ import android.widget.TextView;
 public class StationAdapter extends ArrayAdapter<Station>{
 	private LayoutInflater mInflater;
 	private OnActionClickListener mOnActionClickListener;
+	private boolean isLeft=false;
 	public StationAdapter(Context context) {
 		super(context);
 		mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
+	public void setLeft(boolean isLeft) {
+		this.isLeft = isLeft;
+	}
+
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder=null;
@@ -55,6 +60,11 @@ public class StationAdapter extends ArrayAdapter<Station>{
 		}
 		
 		holder.name.setText(item.getName());
+		if(isLeft){
+			holder.icon.setVisibility(View.GONE);
+			holder.desc.setVisibility(View.GONE);
+			holder.star.setVisibility(View.GONE);
+		}
 		holder.desc.setText(item.getDesc());
 		holder.icon.setImageResource(R.drawable.ic_launcher);
 		holder.star.setOnClickListener(new OnClickListener(){
