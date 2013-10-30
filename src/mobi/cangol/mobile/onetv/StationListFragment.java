@@ -149,7 +149,7 @@ public class StationListFragment extends BaseContentFragment {
 	private void playStationF(Station station){
 		Bundle bundle=new Bundle();
 		bundle.putSerializable("station", station);
-		this.setContentFragment(PlayVideoFragment.class, "PlayVideoFragment"+station.getId(), bundle);
+		this.setContentFragment(PlayVideoFragment.class, "PlayVideoFragment", bundle);
 	}
 	private void playStationA(Station station){
 		Intent intent=new Intent(this.getActivity(),PlayerActivity.class);

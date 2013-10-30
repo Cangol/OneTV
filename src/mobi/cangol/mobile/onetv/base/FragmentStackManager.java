@@ -152,7 +152,7 @@ public class FragmentStackManager {
 	    }
 	 }
 	
-	private void clear() {
+	public void clear() {
 		if(stack.size()>0){
 			Fragment first = stack.firstElement();
 			for (Fragment fragment : stack) {

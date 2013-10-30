@@ -17,6 +17,7 @@
 package mobi.cangol.mobile.onetv;
 
 import io.vov.vitamio.LibsChecker;
+import mobi.cangol.mobile.onetv.base.BaseFragment;
 import mobi.cangol.mobile.onetv.base.BaseSlidingFragmentActivity;
 import mobi.cangol.mobile.onetv.db.model.Station;
 import android.os.Bundle;
@@ -61,5 +62,10 @@ public class PlayerActivity extends BaseSlidingFragmentActivity {
 
 	@Override
 	protected void initData(Bundle savedInstanceState) {
+	}
+	@Override
+   public void setContentFragment(Class<? extends BaseFragment> fragmentClass,String tag,Bundle args) {
+		this.getFragmentStackManager().clear();
+		super.setContentFragment(fragmentClass, tag, args);
 	}
 }

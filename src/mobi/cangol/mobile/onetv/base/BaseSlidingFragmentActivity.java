@@ -69,6 +69,11 @@ public abstract class BaseSlidingFragmentActivity extends SlidingFragmentActivit
 		}
 		
 	}
+	
+	public FragmentStackManager getFragmentStackManager() {
+		return stack;
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
@@ -88,7 +93,7 @@ public abstract class BaseSlidingFragmentActivity extends SlidingFragmentActivit
 	final public void setContentFragment(Class<? extends BaseFragment> fragmentClass,String tag,Bundle args,int moduleId) {
 		this.setContentFragment(fragmentClass,tag,args);
 	}
-	final public void setContentFragment(Class<? extends BaseFragment> fragmentClass,String tag,Bundle args) {
+    public void setContentFragment(Class<? extends BaseFragment> fragmentClass,String tag,Bundle args) {
 		stack.replace(fragmentClass, tag,args);
 		stack.commit();
 	}
