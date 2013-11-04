@@ -82,6 +82,10 @@ public class PlayVideoFragment extends BaseContentFragment {
 
 			@Override
 			public boolean onError(MediaPlayer mp, int what, int extra) {
+				if(what==MediaPlayer.MEDIA_ERROR_UNKNOWN){
+					mVideoView.start();
+					return true;
+				}
 				return false;
 			}
 		

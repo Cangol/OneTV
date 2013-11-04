@@ -39,6 +39,6 @@
         android:layout_height="wrap_content"
          android:contentDescription="@string/app_name"
         android:padding="8dp"
-        android:src="@drawable/ic_action_play" />
+        android:src="@drawable/ic_action_play_btn" />
 
 </LinearLayout>

@@ -23,14 +23,18 @@ import mobi.cangol.mobile.onetv.base.BaseContentFragment;
 import mobi.cangol.mobile.onetv.db.StationService;
 import mobi.cangol.mobile.onetv.db.UserHistoryService;
 import mobi.cangol.mobile.onetv.db.model.UserHistory;
-import mobi.cangol.mobile.onetv.view.PromptView;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter.OnLoadCallback;
+import mobi.cangol.mobile.onetv.view.PromptView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -51,6 +55,7 @@ public class UserHistoryFragment extends BaseContentFragment {
 	private int pageSize=10;
 	private UserHistoryService userHistoryService;
 	private StationService stationService;
+	private PopupMenu mPopupMenu;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -95,7 +100,8 @@ public class UserHistoryFragment extends BaseContentFragment {
 
 			@Override
 			public void onClick(View v, int position) {
-				
+				UserHistory item=dataAdapter.getItem(position);
+				showPopuMenu(item,v);
 			}
 			
 		});
@@ -113,6 +119,28 @@ public class UserHistoryFragment extends BaseContentFragment {
 				}
 		});
 		initData();
+	}
+	private void showPopuMenu(final UserHistory userHistory,View actionView){
+		mPopupMenu=new PopupMenu(this.getActivity(),actionView);
+		mPopupMenu.inflate(R.menu.list_action_menu);
+		mPopupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener(){
+
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				switch(item.getItemId()){
+				case R.id.menu_action_play:
+					playStation(userHistory);
+					break;
+				case R.id.menu_action_delete:
+					userHistoryService.delete(userHistory.get_id());
+					dataAdapter.remove(userHistory);
+					break;
+				}
+				mPopupMenu.dismiss();
+				return true;
+			}
+		});
+		mPopupMenu.show();
 	}
 	private void playStation(UserHistory userHistory){
 		Intent intent=new Intent(this.getActivity(),PlayerActivity.class);

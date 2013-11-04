@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/program_time"
         android:layout_marginLeft="8dp"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:layout_width="60dp"
         android:layout_height="wrap_content" />
@@ -27,6 +27,6 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/app_name"
         android:padding="8dp"
-        android:src="@drawable/ic_action_remind" />
+        android:src="@drawable/ic_action_remind_btn" />
 
 </LinearLayout>

@@ -23,6 +23,7 @@ import mobi.cangol.mobile.onetv.base.BaseContentFragment;
 import mobi.cangol.mobile.onetv.db.StationService;
 import mobi.cangol.mobile.onetv.db.UserFavoriteService;
 import mobi.cangol.mobile.onetv.db.model.UserFavorite;
+import mobi.cangol.mobile.onetv.db.model.UserHistory;
 import mobi.cangol.mobile.onetv.view.PromptView;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter.OnLoadCallback;
@@ -30,7 +31,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -51,6 +55,7 @@ public class UserFavoriteFragment extends BaseContentFragment {
 	private int pageSize=10;
 	private UserFavoriteService userFavoriteService;
 	private StationService stationService;
+	private PopupMenu mPopupMenu;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,7 +99,8 @@ public class UserFavoriteFragment extends BaseContentFragment {
 
 			@Override
 			public void onClick(View v, int position) {
-				
+				UserFavorite item=dataAdapter.getItem(position);
+				showPopuMenu(item,v);
 			}
 			
 		});
@@ -112,6 +118,28 @@ public class UserFavoriteFragment extends BaseContentFragment {
 				}
 		});
 		initData();
+	}
+	private void showPopuMenu(final UserFavorite userFavorite,View actionView){
+		mPopupMenu=new PopupMenu(this.getActivity(),actionView);
+		mPopupMenu.inflate(R.menu.list_action_menu);
+		mPopupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener(){
+
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				switch(item.getItemId()){
+				case R.id.menu_action_play:
+					playStation(userFavorite);
+					break;
+				case R.id.menu_action_delete:
+					userFavoriteService.delete(userFavorite.get_id());
+					dataAdapter.remove(userFavorite);
+					break;
+				}
+				mPopupMenu.dismiss();
+				return true;
+			}
+		});
+		mPopupMenu.show();
 	}
 	private void playStation(UserFavorite userFavorite){
 		Intent intent=new Intent(this.getActivity(),PlayerActivity.class);

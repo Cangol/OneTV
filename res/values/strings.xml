@@ -13,6 +13,12 @@
     <string name="menu_history">播放历史</string>
     <string name="favorites">收藏</string>
     
+     <string name="add_favorite_success">添加收藏成功</string>
+     <string name="del_favorite_success">删除收藏成功</string>
+     
+       <string name="action_play">播放</string>
+       
+         <string name="action_delete">删除</string>
     
     <!--vitamio  -->
 	<string name="vitamio_library_app_name">VitamioLibrary</string>

@@ -39,7 +39,7 @@ public class PlayerActivity extends BaseSlidingFragmentActivity {
 		if(savedInstanceState==null){
 			Bundle bundle=new Bundle();
 			bundle.putSerializable("position", "left");
-			this.setMenuFragment(StationListFragment.class, "StationFragment", bundle);
+			this.setMenuFragment(StationListFragment.class, "StationListFragment", bundle);
 			
 			Bundle bundle2=new Bundle();
 			bundle2.putSerializable("station", station);

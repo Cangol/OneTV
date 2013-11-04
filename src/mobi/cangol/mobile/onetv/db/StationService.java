@@ -9,6 +9,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.PreparedDelete;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 
@@ -116,5 +118,16 @@ public class StationService implements BaseService<Station> {
 			Log.e(TAG, "ServiceService find fail!");
 		}
 		return null;
+	}
+	public void deleteAll() {
+		DeleteBuilder<Station, Integer> delBuilder =dao.deleteBuilder(); 
+		PreparedDelete<Station> preparedDelete= null;
+		try {
+			preparedDelete = delBuilder.prepare();
+			dao.delete(preparedDelete);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			Log.e(TAG, "deleteAll fail!");
+		}
 	}
 }

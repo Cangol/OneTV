@@ -45,6 +45,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cangol.mobile.http.AsyncHttpClient;
 import com.cangol.mobile.http.AsyncHttpResponseHandler;
@@ -82,6 +83,7 @@ public class StationProgramFragment extends BaseContentFragment {
 		View v = inflater.inflate(R.layout.fragment_program, container,false);
 		findViews(v);
 		initViews(savedInstanceState);
+		updateFavoriteView();
 		return v;
 	}
 
@@ -154,8 +156,12 @@ public class StationProgramFragment extends BaseContentFragment {
 						userFavorite.setStationUrl(station.getUrl());
 						userFavorite.setLastPlayTime(TimeUtils.getCurrentTime());
 						userFavoriteService.save(userFavorite);
+						favoriteImg.setImageResource(R.drawable.ic_star_selected);
+						Toast.makeText(getActivity(), R.string.add_favorite_success, Toast.LENGTH_SHORT).show();
 					}else{
 						userFavoriteService.delete(userFavorite.get_id());
+						favoriteImg.setImageResource(R.drawable.ic_star_unselected);
+						Toast.makeText(getActivity(), R.string.del_favorite_success, Toast.LENGTH_SHORT).show();
 					}
 			}
 			
@@ -211,6 +217,14 @@ public class StationProgramFragment extends BaseContentFragment {
 			}
 			
 		});
+	}
+	private void updateFavoriteView(){
+		UserFavorite userFavorite=userFavoriteService.findByStationId(station.getId());
+		if(userFavorite==null){
+			favoriteImg.setImageResource(R.drawable.ic_star_unselected);
+		}else{
+			favoriteImg.setImageResource(R.drawable.ic_star_selected);
+		}
 	}
 	private void updateView(List<Program> list){
 		dataAdapter.addAll(list);

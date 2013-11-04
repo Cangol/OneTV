@@ -21,6 +21,7 @@ import mobi.cangol.mobile.onetv.adapter.UserRemindAdapter;
 import mobi.cangol.mobile.onetv.adapter.UserRemindAdapter.OnActionClickListener;
 import mobi.cangol.mobile.onetv.base.BaseContentFragment;
 import mobi.cangol.mobile.onetv.db.UserRemindService;
+import mobi.cangol.mobile.onetv.db.model.UserFavorite;
 import mobi.cangol.mobile.onetv.db.model.UserRemind;
 import mobi.cangol.mobile.onetv.view.PromptView;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
@@ -28,7 +29,10 @@ import mobi.cangol.mobile.onetv.view.LoadMoreAdapter.OnLoadCallback;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -47,11 +51,12 @@ public class UserRemindFragment extends BaseContentFragment {
 	private UserRemindAdapter dataAdapter;
 	private int page=1;
 	private int pageSize=10;
-	private UserRemindService userHistoryService;
+	private UserRemindService userRemindService;
+	private PopupMenu mPopupMenu;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		userHistoryService=new UserRemindService(this.getActivity());
+		userRemindService=new UserRemindService(this.getActivity());
 	}
 
 	@Override
@@ -91,7 +96,8 @@ public class UserRemindFragment extends BaseContentFragment {
 
 			@Override
 			public void onClick(View v, int position) {
-				
+				UserRemind item=dataAdapter.getItem(position);
+				showPopuMenu(item,v);
 			}
 			
 		});
@@ -110,6 +116,28 @@ public class UserRemindFragment extends BaseContentFragment {
 		});
 		initData();
 	}
+	private void showPopuMenu(final UserRemind userRemind,View actionView){
+		mPopupMenu=new PopupMenu(this.getActivity(),actionView);
+		mPopupMenu.inflate(R.menu.list_action_menu);
+		mPopupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener(){
+
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				switch(item.getItemId()){
+				case R.id.menu_action_play:
+					playStation(userRemind);
+					break;
+				case R.id.menu_action_delete:
+					userRemindService.delete(userRemind.get_id());
+					dataAdapter.remove(userRemind);
+					break;
+				}
+				mPopupMenu.dismiss();
+				return true;
+			}
+		});
+		mPopupMenu.show();
+	}
 	private void playStation(UserRemind userFavorite){
 		
 	}
@@ -126,7 +154,7 @@ public class UserRemindFragment extends BaseContentFragment {
 
 			@Override
 			protected List<UserRemind> doInBackground(Void... params) {
-				return userHistoryService.findList(from,  max);
+				return userRemindService.findList(from,  max);
 			}
 			@Override
 			protected void onPostExecute(List<UserRemind> result) {

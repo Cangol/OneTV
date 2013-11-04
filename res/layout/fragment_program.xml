@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_star_selected" />
+            android:src="@drawable/ic_star_unselected" />
         </LinearLayout>
         <mobi.cangol.mobile.onetv.view.PromptView
             android:id="@+id/promptView"

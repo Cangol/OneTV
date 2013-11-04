@@ -61,7 +61,9 @@ public class LeftMenuFragment extends BaseContentFragment {
 
 			@Override
 			public void onClick(View v) {
-				setContentFragment(StationListFragment.class, "StationFragment",null);
+				Bundle bundle=new Bundle();
+				bundle.putSerializable("position", "right");
+				setContentFragment(StationListFragment.class, "StationListFragment",bundle);
 			}
 		
 		});

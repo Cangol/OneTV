@@ -61,11 +61,15 @@ public class StationListFragment extends BaseContentFragment {
 	private int pageSize=10;
 	private StationService stationService;
 	private String position;
+	private boolean tvIsInit=false;
+	private SharedPreferences sp ;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		stationService=new StationService(this.getActivity());
 		position=this.getArguments().getString("position");
+		 sp = this.getActivity().getSharedPreferences("OneTv", Context.MODE_PRIVATE);
+		tvIsInit=sp.getBoolean("tv", false);
 	}
 
 	@Override
@@ -159,7 +163,11 @@ public class StationListFragment extends BaseContentFragment {
 
 	@Override
 	protected void initData(Bundle savedInstanceState) {
-		//initData();
+		if(!tvIsInit){
+			initTvData();
+			sp.edit().putBoolean("tv", true).commit();
+			tvIsInit=true;
+		}
 		getStationList((page-1)*pageSize,pageSize);
 	}
 	private void updateView(List<Station> list){
@@ -181,10 +189,8 @@ public class StationListFragment extends BaseContentFragment {
         	baos.write(i); 
         } 
        return   baos.toString(); 
-}
-	protected void initData() {
-		SharedPreferences sp = this.getActivity().getSharedPreferences("SP", Context.MODE_PRIVATE);
-		if(sp.getBoolean("tv", false))return;
+	}
+	private void parserTvData(){
 		String response =null;
 		ApiHttpResult<Station> result = null;
 		try {
@@ -198,10 +204,31 @@ public class StationListFragment extends BaseContentFragment {
 			e.printStackTrace();
 		}
 		List<Station> list=result.getList();
+		stationService.deleteAll();
 		for(Station station:list){
 			stationService.save(station);
 		}
-		sp.edit().putBoolean("tv", true);
+	}
+	protected void initTvData() {
+		new AsyncTask<Void,Void,Void>(){
+
+			@Override	
+			protected void onPreExecute() {
+				super.onPreExecute();
+				promptView.showLoading();
+			}
+
+			@Override
+			protected Void doInBackground(Void... params) {
+				parserTvData();
+				return null;
+			}
+			@Override
+			protected void onPostExecute(Void result) {
+				super.onPostExecute(result);
+			}
+		}.execute();
+		
 //		AsyncHttpClient client=new AsyncHttpClient();
 //		RequestParams params=new RequestParams(ApiContants.stationSync(""));
 //		client.get(ApiContants.URL_STATION_SYNC, params, new JsonHttpResponseHandler(){
@@ -235,7 +262,6 @@ public class StationListFragment extends BaseContentFragment {
 //		});
 	}
 	private void getStationList(final long from,final long max){
-		Log.d(TAG, "from ="+from+"max="+max);
 		new AsyncTask<Void,Void,List<Station>>(){
 
 			@Override	
