@@ -15,12 +15,12 @@
     
      <string name="add_favorite_success">添加收藏成功</string>
      <string name="del_favorite_success">删除收藏成功</string>
-     
-       <string name="action_play">播放</string>
-       
-         <string name="action_delete">删除</string>
-    
-    <!--vitamio  -->
+     <string name="action_play">播放</string>
+    <string name="action_delete">删除</string>
+    <string name="test">test</string>
+    <string name="btn_play">播放</string>
+    <string name="btn_cancel">取消</string>
+<!--vitamio  -->
 	<string name="vitamio_library_app_name">VitamioLibrary</string>
     <string name="vitamio_init_decoders">Initializing decoders…</string>
     <string name="permission_group_tools_label">Vitamio tools</string>

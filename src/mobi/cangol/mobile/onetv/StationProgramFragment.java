@@ -17,6 +17,7 @@
 package mobi.cangol.mobile.onetv;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import mobi.cangol.mobile.onetv.adapter.ProgramAdapter;
@@ -32,9 +33,12 @@ import mobi.cangol.mobile.onetv.db.model.Station;
 import mobi.cangol.mobile.onetv.db.model.UserFavorite;
 import mobi.cangol.mobile.onetv.db.model.UserRemind;
 import mobi.cangol.mobile.onetv.log.Log;
-import mobi.cangol.mobile.onetv.view.PromptView;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter.OnLoadCallback;
+import mobi.cangol.mobile.onetv.view.PromptView;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,6 +49,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.cangol.mobile.http.AsyncHttpClient;
@@ -109,19 +114,15 @@ public class StationProgramFragment extends BaseContentFragment {
 
 			@Override
 			public void onClick(View v, int position) {
-				Program item=dataAdapter.getItem(position);
-				UserRemind userRemind=userRemindService.findByStationId(station.getId());
-				if(userRemind==null){
-					userRemind=new UserRemind();
-					userRemind.setStationId(station.getId());
-					userRemind.setStationName(station.getName());
-					userRemind.setStationUrl(station.getUrl());
-					userRemind.setPlayTime(item.getPlayTime());
-					userRemind.setProgram(item.getTvProgram());
-					userRemindService.save(userRemind);
-				}else{
-					userRemindService.delete(userRemind.get_id());
-				}
+			    Program item=dataAdapter.getItem(position);
+			    String[] time=item.getPlayTime().split(":");
+			    if(time!=null&&time.length==2){
+			    	 int hour=Integer.parseInt(time[0]);
+					 int minute=Integer.parseInt(time[1]);
+					 addAlarm(item,hour,minute);
+			    }else{
+			    	Log.d("PlayTime 格式错误!");
+			    }
 			}
 			
 		});
@@ -170,6 +171,43 @@ public class StationProgramFragment extends BaseContentFragment {
 		descTv.setText(station.getDesc());
 		getStationProgram();
 	}
+	
+	private void addAlarm(final Program program,int hour,int minute){
+			    final Calendar calendar=Calendar.getInstance();
+				calendar.setTimeInMillis(System.currentTimeMillis());
+				new TimePickerDialog(getActivity(),new TimePickerDialog.OnTimeSetListener() {
+					@Override
+					public void onTimeSet(TimePicker arg0, int h, int m) {
+						
+						UserRemind userRemind=new UserRemind();
+						userRemind.setStationId(station.getId());
+						userRemind.setStationName(station.getName());
+						userRemind.setStationUrl(station.getUrl());
+						userRemind.setPlayTime(program.getPlayTime());
+						userRemind.setProgram(program.getTvProgram());
+						int _id=userRemindService.save(userRemind);
+						
+						//设置日历的时间，主要是让日历的年月日和当前同步
+						calendar.setTimeInMillis(System.currentTimeMillis());
+						//设置日历的小时和分钟
+						calendar.set(Calendar.HOUR_OF_DAY, h);
+						calendar.set(Calendar.MINUTE, m);
+						//将秒和毫秒设置为0
+						calendar.set(Calendar.SECOND, 0);
+						calendar.set(Calendar.MILLISECOND, 0);
+						//建立Intent和PendingIntent来调用闹钟管理器
+						Intent intent = new Intent(getActivity(),AlarmReceiver.class);
+						intent.putExtra("remind_id", _id);
+						PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
+						//获取闹钟管理器
+						AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+						//设置闹钟
+						alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+						//alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 10*1000, pendingIntent);
+						Toast.makeText(getActivity(), "设置提醒的时间："+String.valueOf(h)+":"+String.valueOf(m), Toast.LENGTH_SHORT).show();
+					}
+				},hour,minute,true).show();				
+	}
 	private void playStation(Station station){
 			Intent intent=new Intent(this.getActivity(),PlayerActivity.class);
 			intent.putExtra("station", station);
@@ -193,7 +231,9 @@ public class StationProgramFragment extends BaseContentFragment {
 				List<Program>   programs= new ArrayList<Program>();
 				for (int i = 0; i < feed.getAllData().size(); i++) {
 					temp=feed.getAllData().get(i).split("@@@");
-					programs.add(new Program(temp[0].substring(0, 5),temp[0].substring(6, 8),temp[1],temp[2]));
+					if(temp[0].length()>=8){
+						programs.add(new Program(temp[0].substring(0, 5),temp[0].substring(6, 8),temp[1],temp[2]));
+					}
 				}
 				updateView(programs);
 			}

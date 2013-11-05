@@ -16,10 +16,14 @@
 
 package mobi.cangol.mobile.onetv;
 
+import java.util.List;
+
 import io.vov.vitamio.LibsChecker;
 import mobi.cangol.mobile.onetv.base.BaseFragment;
 import mobi.cangol.mobile.onetv.base.BaseSlidingFragmentActivity;
 import mobi.cangol.mobile.onetv.db.model.Station;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
 
@@ -68,4 +72,21 @@ public class PlayerActivity extends BaseSlidingFragmentActivity {
 		this.getFragmentStackManager().clear();
 		super.setContentFragment(fragmentClass, tag, args);
 	}
+
+	@Override
+	public void onBack() {
+		List<Activity> activitys=this.app.activityManager;
+		boolean isHave=false;
+		for(Activity activity :activitys){
+			if(activity instanceof MainActivity){
+				break;
+			}
+		}
+		if(!isHave){
+			Intent intent=new Intent(this,MainActivity.class);
+			this.startActivity(intent);
+		}
+		finish();
+	}
+	
 }

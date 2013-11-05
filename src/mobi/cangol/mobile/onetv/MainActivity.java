@@ -16,7 +16,11 @@
 
 package mobi.cangol.mobile.onetv;
 
+import java.util.List;
+
 import mobi.cangol.mobile.onetv.base.BaseSlidingFragmentActivity;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.cangol.mobile.logging.Log;
@@ -48,6 +52,10 @@ public class MainActivity extends BaseSlidingFragmentActivity {
 
 	@Override
 	protected void initData(Bundle savedInstanceState) {
+		
 	}
-
+	@Override
+	public void onBack() {
+		finish();
+	}
 }
