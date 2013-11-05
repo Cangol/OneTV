@@ -83,7 +83,7 @@ public class RemindActivity extends Activity {
 				finish();
 			}
 		});
-		//userRemindService.delete(_id);
+		userRemindService.delete(_id);
 	}
 	private void playStationA(Station station){
 		Intent intent=new Intent(this,PlayerActivity.class);
