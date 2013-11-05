@@ -31,9 +31,10 @@ public class UserRemindService implements BaseService<UserRemind> {
 		int _id=-1;
 		try {
 			if(obj.get_id()!=null)
-				_id=dao.update(obj);
+				dao.update(obj);
 			else
-				_id=dao.create(obj);
+				dao.create(obj);
+			 _id=obj.get_id();
 		}catch (SQLException e) {
 			e.printStackTrace();
 			Log.e(TAG, "UserRemindService save fail!");

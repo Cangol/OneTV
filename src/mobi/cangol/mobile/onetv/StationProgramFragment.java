@@ -186,7 +186,7 @@ public class StationProgramFragment extends BaseContentFragment {
 						userRemind.setPlayTime(program.getPlayTime());
 						userRemind.setProgram(program.getTvProgram());
 						int _id=userRemindService.save(userRemind);
-						
+						Log.d("save  _id=" + _id);
 						//设置日历的时间，主要是让日历的年月日和当前同步
 						calendar.setTimeInMillis(System.currentTimeMillis());
 						//设置日历的小时和分钟

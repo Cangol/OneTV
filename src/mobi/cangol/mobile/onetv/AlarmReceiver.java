@@ -32,6 +32,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		UserRemindService userRemindService = new UserRemindService(context);
 		int _id = intent.getIntExtra("remind_id", -1);
+		Log.d("remind_id=" + _id);
 		UserRemind userRemind = userRemindService.find(_id);
 		if (_id != -1&&userRemind!=null) {
 				Log.d("提醒时间到:" + userRemind.getProgram());
@@ -40,7 +41,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 				intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				context.startActivity(intent2);
 		} else {
-			Log.d("没找到提醒内容,remind_id=-1");
+			Log.d("没找到提醒内容或remind_id=-1");
 		}
 	}
 }

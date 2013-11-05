@@ -18,6 +18,7 @@ package mobi.cangol.mobile.onetv;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import mobi.cangol.mobile.onetv.adapter.StationAdapter;
@@ -27,9 +28,9 @@ import mobi.cangol.mobile.onetv.base.BaseContentFragment;
 import mobi.cangol.mobile.onetv.db.StationService;
 import mobi.cangol.mobile.onetv.db.model.Station;
 import mobi.cangol.mobile.onetv.log.Log;
-import mobi.cangol.mobile.onetv.view.PromptView;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter.OnLoadCallback;
+import mobi.cangol.mobile.onetv.view.PromptView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,6 +56,7 @@ import android.widget.ListView;
 public class StationListFragment extends BaseContentFragment {
 	private ListView listView;
 	private PromptView promptView;
+	private ArrayList<Station> mItemList;
 	private LoadMoreAdapter<Station> loadMoreAdapter;
 	private StationAdapter dataAdapter;
 	private int page=1;
@@ -160,7 +162,11 @@ public class StationListFragment extends BaseContentFragment {
 		intent.putExtra("station", station);
 		this.startActivity(intent);
 	}
-
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putSerializable("items", mItemList);
+	}
 	@Override
 	protected void initData(Bundle savedInstanceState) {
 		if(!tvIsInit){
@@ -168,7 +174,13 @@ public class StationListFragment extends BaseContentFragment {
 			sp.edit().putBoolean("tv", true).commit();
 			tvIsInit=true;
 		}
-		getStationList((page-1)*pageSize,pageSize);
+		if(savedInstanceState!=null)
+			mItemList=(ArrayList<Station>) savedInstanceState.getSerializable("items");
+		if(mItemList==null){
+			  getStationList((page-1)*pageSize,pageSize);
+		}else{
+			updateView(mItemList);
+		}
 	}
 	private void updateView(List<Station> list){
 		if(page==1){
@@ -181,6 +193,7 @@ public class StationListFragment extends BaseContentFragment {
 			promptView.showEmpty();
 		}
 		loadMoreAdapter.addMoreComplete();
+		mItemList=dataAdapter.getItems();
 	}
 	public  String inputStream2String(InputStream   is)   throws   IOException{ 
         ByteArrayOutputStream   baos   =   new   ByteArrayOutputStream(); 
