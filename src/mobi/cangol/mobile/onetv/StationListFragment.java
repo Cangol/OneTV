@@ -291,7 +291,6 @@ public class StationListFragment extends BaseContentFragment {
 			@Override
 			protected void onPostExecute(List<Station> result) {
 				super.onPostExecute(result);
-				Log.d(TAG, "from ="+from+"max="+max+"result="+result.size());
 				updateView(result);
 			}
 		}.execute();

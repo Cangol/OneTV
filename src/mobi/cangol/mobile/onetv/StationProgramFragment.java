@@ -31,6 +31,7 @@ import mobi.cangol.mobile.onetv.db.UserRemindService;
 import mobi.cangol.mobile.onetv.db.model.Program;
 import mobi.cangol.mobile.onetv.db.model.Station;
 import mobi.cangol.mobile.onetv.db.model.UserFavorite;
+import mobi.cangol.mobile.onetv.db.model.UserHistory;
 import mobi.cangol.mobile.onetv.db.model.UserRemind;
 import mobi.cangol.mobile.onetv.log.Log;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
@@ -69,6 +70,7 @@ public class StationProgramFragment extends BaseContentFragment {
 	private ImageView favoriteImg;
 	private ListView listView;
 	private PromptView listViewTips;
+	private ArrayList<Program> mItemList;
 	private LoadMoreAdapter<Program> loadMoreAdapter;
 	private ProgramAdapter dataAdapter;
 	private Station station;
@@ -91,7 +93,11 @@ public class StationProgramFragment extends BaseContentFragment {
 		updateFavoriteView();
 		return v;
 	}
-
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		initData(savedInstanceState);
+	}
 	@Override
 	protected void findViews(View view) {
 		nameTv=(TextView) view.findViewById(R.id.station_name);
@@ -169,9 +175,24 @@ public class StationProgramFragment extends BaseContentFragment {
 		});
 		nameTv.setText(station.getName());
 		descTv.setText(station.getDesc());
-		getStationProgram();
+		
 	}
-	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putSerializable("items", mItemList);
+	}
+	@Override
+	protected void initData(Bundle savedInstanceState) {
+		if(savedInstanceState!=null)
+			mItemList=(ArrayList<Program>) savedInstanceState.getSerializable("items");
+		if(mItemList==null){
+			getStationProgram();
+		}else{
+			updateView(mItemList);
+		}
+		
+	}
 	private void addAlarm(final Program program,int hour,int minute){
 			    final Calendar calendar=Calendar.getInstance();
 				calendar.setTimeInMillis(System.currentTimeMillis());
@@ -274,11 +295,6 @@ public class StationProgramFragment extends BaseContentFragment {
 			listViewTips.showEmpty();
 		}
 		loadMoreAdapter.addMoreComplete();
+		mItemList=dataAdapter.getItems();
 	}
-
-	@Override
-	protected void initData(Bundle savedInstanceState) {
-		
-	}
-	
 }

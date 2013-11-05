@@ -79,6 +79,7 @@ public class PlayerActivity extends BaseSlidingFragmentActivity {
 		boolean isHave=false;
 		for(Activity activity :activitys){
 			if(activity instanceof MainActivity){
+				isHave=true;
 				break;
 			}
 		}

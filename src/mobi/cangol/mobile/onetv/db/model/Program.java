@@ -1,12 +1,17 @@
 package mobi.cangol.mobile.onetv.db.model;
 
-public class Program {
+public class Program  implements java.io.Serializable {
+	/**
+	 * serialVersionUID:TODO(用一句话描述这个变量表示什么). 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String playTime;
 	private String meridiem;
 	private String tvProgram;
 	private String tvStationInfo;
 	private String channel;
-	
+	public Program() {
+	}
 	/**
 	 * @param playTime
 	 * @param meridiem

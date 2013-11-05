@@ -15,6 +15,7 @@
  */
 package mobi.cangol.mobile.onetv;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mobi.cangol.mobile.onetv.adapter.UserHistoryAdapter;
@@ -22,6 +23,7 @@ import mobi.cangol.mobile.onetv.adapter.UserHistoryAdapter.OnStarClickListener;
 import mobi.cangol.mobile.onetv.base.BaseContentFragment;
 import mobi.cangol.mobile.onetv.db.StationService;
 import mobi.cangol.mobile.onetv.db.UserHistoryService;
+import mobi.cangol.mobile.onetv.db.model.Station;
 import mobi.cangol.mobile.onetv.db.model.UserHistory;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter.OnLoadCallback;
@@ -49,6 +51,7 @@ import android.widget.ListView;
 public class UserHistoryFragment extends BaseContentFragment {
 	private ListView listView;
 	private PromptView listViewTips;
+	private ArrayList<UserHistory> mItemList;
 	private LoadMoreAdapter<UserHistory> loadMoreAdapter;
 	private UserHistoryAdapter dataAdapter;
 	private int page=1;
@@ -71,7 +74,11 @@ public class UserHistoryFragment extends BaseContentFragment {
 		initViews(savedInstanceState);
 		return v;
 	}
-
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		initData(savedInstanceState);
+	}
 	@Override
 	protected void findViews(View view) {
 		listView= (ListView) view.findViewById(R.id.listview);
@@ -118,7 +125,6 @@ public class UserHistoryFragment extends BaseContentFragment {
 					page++;
 				}
 		});
-		initData();
 	}
 	private void showPopuMenu(final UserHistory userHistory,View actionView){
 		mPopupMenu=new PopupMenu(this.getActivity(),actionView);
@@ -147,8 +153,20 @@ public class UserHistoryFragment extends BaseContentFragment {
 		intent.putExtra("station", stationService.findByStationoId(userHistory.getStationId()));
 		this.startActivity(intent);
 	}
-	protected void initData() {
-		getUserHistoryList((page-1)*pageSize,pageSize);
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putSerializable("items", mItemList);
+	}
+	protected void initData(Bundle savedInstanceState) {
+		if(savedInstanceState!=null)
+			mItemList=(ArrayList<UserHistory>) savedInstanceState.getSerializable("items");
+		if(mItemList==null){
+			getUserHistoryList((page-1)*pageSize,pageSize);
+		}else{
+			updateView(mItemList);
+		}
+		
 	}
 	private void getUserHistoryList(final long from,final long max){
 		new AsyncTask<Void,Void,List<UserHistory>>(){
@@ -179,12 +197,7 @@ public class UserHistoryFragment extends BaseContentFragment {
 		}else{
 			listViewTips.showEmpty();
 		}
-		loadMoreAdapter.addMoreComplete();
+		loadMoreAdapter.addMoreComplete();	
+		mItemList=dataAdapter.getItems();
 	}
-
-	@Override
-	protected void initData(Bundle savedInstanceState) {
-		
-	}
-	
 }

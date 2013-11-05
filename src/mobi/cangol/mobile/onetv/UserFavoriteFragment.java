@@ -15,6 +15,7 @@
  */
 package mobi.cangol.mobile.onetv;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mobi.cangol.mobile.onetv.adapter.UserFavoriteAdapter;
@@ -23,10 +24,9 @@ import mobi.cangol.mobile.onetv.base.BaseContentFragment;
 import mobi.cangol.mobile.onetv.db.StationService;
 import mobi.cangol.mobile.onetv.db.UserFavoriteService;
 import mobi.cangol.mobile.onetv.db.model.UserFavorite;
-import mobi.cangol.mobile.onetv.db.model.UserHistory;
-import mobi.cangol.mobile.onetv.view.PromptView;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter.OnLoadCallback;
+import mobi.cangol.mobile.onetv.view.PromptView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -49,6 +49,7 @@ import android.widget.ListView;
 public class UserFavoriteFragment extends BaseContentFragment {
 	private ListView listView;
 	private PromptView listViewTips;
+	private ArrayList<UserFavorite> mItemList;
 	private LoadMoreAdapter<UserFavorite> loadMoreAdapter;
 	private UserFavoriteAdapter dataAdapter;
 	private int page=1;
@@ -70,7 +71,11 @@ public class UserFavoriteFragment extends BaseContentFragment {
 		initViews(savedInstanceState);
 		return v;
 	}
-
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		initData(savedInstanceState);
+	}
 	@Override
 	protected void findViews(View view) {
 		listView= (ListView) view.findViewById(R.id.listview);
@@ -117,7 +122,6 @@ public class UserFavoriteFragment extends BaseContentFragment {
 					page++;
 				}
 		});
-		initData();
 	}
 	private void showPopuMenu(final UserFavorite userFavorite,View actionView){
 		mPopupMenu=new PopupMenu(this.getActivity(),actionView);
@@ -146,8 +150,19 @@ public class UserFavoriteFragment extends BaseContentFragment {
 		intent.putExtra("station", stationService.findByStationoId(userFavorite.getStationId()));
 		this.startActivity(intent);
 	}
-	protected void initData() {
-		getUserFavoriteList((page-1)*pageSize,pageSize);
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putSerializable("items", mItemList);
+	}
+	protected void initData(Bundle savedInstanceState) {
+		if(savedInstanceState!=null)
+			mItemList=(ArrayList<UserFavorite>) savedInstanceState.getSerializable("items");
+		if(mItemList==null){
+			getUserFavoriteList((page-1)*pageSize,pageSize);
+		}else{
+			updateView(mItemList);
+		}
 	}
 	private void getUserFavoriteList(final long from,final long max){
 		new AsyncTask<Void,Void,List<UserFavorite>>(){
@@ -179,11 +194,7 @@ public class UserFavoriteFragment extends BaseContentFragment {
 			listViewTips.showEmpty();
 		}
 		loadMoreAdapter.addMoreComplete();
-	}
-
-	@Override
-	protected void initData(Bundle savedInstanceState) {
-		
+		mItemList=dataAdapter.getItems();
 	}
 	
 }
