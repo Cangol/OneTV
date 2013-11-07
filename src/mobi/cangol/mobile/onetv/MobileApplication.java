@@ -42,5 +42,10 @@ public class MobileApplication  extends Application {
 		}
 		public void init(){
 			activityManager=new ArrayList<Activity>();
+			session=new  HashMap<String,Object>();
+		}
+		public void exit() {
+			session.clear();
+			android.os.Process.killProcess(android.os.Process.myPid());
 		}
 }

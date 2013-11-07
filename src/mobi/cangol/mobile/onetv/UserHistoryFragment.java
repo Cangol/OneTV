@@ -200,4 +200,8 @@ public class UserHistoryFragment extends BaseContentFragment {
 		loadMoreAdapter.addMoreComplete();	
 		mItemList=dataAdapter.getItems();
 	}
+	@Override
+	public boolean isCleanStack() {
+		return true;
+	}
 }

@@ -20,6 +20,7 @@
     <string name="test">test</string>
     <string name="btn_play">播放</string>
     <string name="btn_cancel">取消</string>
+    	<string name="exit_tips">请再一次Back键退出!</string>
 <!--vitamio  -->
 	<string name="vitamio_library_app_name">VitamioLibrary</string>
     <string name="vitamio_init_decoders">Initializing decoders…</string>

@@ -16,16 +16,20 @@
 
 package mobi.cangol.mobile.onetv;
 
-import java.util.List;
-
 import mobi.cangol.mobile.onetv.base.BaseSlidingFragmentActivity;
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-
-import com.cangol.mobile.logging.Log;
+import android.os.Handler;
+import android.os.Message;
+import android.widget.Toast;
 
 public class MainActivity extends BaseSlidingFragmentActivity {
+	private boolean isExit=false;
+	private final static int exit_time=2000;
+	public Handler handler=new Handler(){
+		@Override
+		 public void handleMessage(Message msg) {
+		 }
+	};
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,6 +60,21 @@ public class MainActivity extends BaseSlidingFragmentActivity {
 	}
 	@Override
 	public void onBack() {
-		finish();
+		if(isExit){
+			finish();
+			app.exit();
+		}else{
+			Toast.makeText(this, R.string.exit_tips,exit_time).show();
+			isExit=true;
+			handler.postDelayed(new Runnable() {
+				
+				@Override
+				public void run() {
+					synchronized (app) {
+						isExit=false;
+					}
+				}
+			},exit_time);
+		}
 	}
 }

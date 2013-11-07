@@ -196,5 +196,8 @@ public class UserFavoriteFragment extends BaseContentFragment {
 		loadMoreAdapter.addMoreComplete();
 		mItemList=dataAdapter.getItems();
 	}
-	
+	@Override
+	public boolean isCleanStack() {
+		return true;
+	}
 }

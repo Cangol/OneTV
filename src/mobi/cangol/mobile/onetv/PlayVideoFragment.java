@@ -140,5 +140,4 @@ public class PlayVideoFragment extends BaseContentFragment {
 	@Override
 	protected void initData(Bundle savedInstanceState) {
 	}
-	
 }

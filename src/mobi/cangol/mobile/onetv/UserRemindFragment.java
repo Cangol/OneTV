@@ -180,5 +180,10 @@ public class UserRemindFragment extends BaseContentFragment {
 	protected void initData(Bundle savedInstanceState) {
 		
 	}
+
+	@Override
+	public boolean isCleanStack() {
+		return true;
+	}
 	
 }
