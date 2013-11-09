@@ -25,12 +25,12 @@ import mobi.cangol.mobile.onetv.db.UserHistoryService;
 import mobi.cangol.mobile.onetv.db.model.Station;
 import mobi.cangol.mobile.onetv.db.model.UserHistory;
 import mobi.cangol.mobile.onetv.log.Log;
+import mobi.cangol.mobile.onetv.view.VideoPromptView;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.cangol.mobile.utils.TimeUtils;
 
@@ -42,8 +42,7 @@ import com.cangol.mobile.utils.TimeUtils;
 public class PlayVideoFragment extends BaseContentFragment {
 	private Station station;
 	private VideoView mVideoView;
-	private LinearLayout mCacheLayout;
-	private TextView mBufferPercentTv;
+	private VideoPromptView mVideoPromptView;
 	private UserHistoryService userHistoryService;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,8 +63,7 @@ public class PlayVideoFragment extends BaseContentFragment {
 	@Override
 	protected void findViews(View view) {
 		mVideoView = (VideoView) view.findViewById(R.id.play_videoview);
-		mCacheLayout= (LinearLayout) view.findViewById(R.id.play_layout_cache);
-		mBufferPercentTv= (TextView) view.findViewById(R.id.play_buffer_percent);
+		mVideoPromptView= (VideoPromptView) view.findViewById(R.id.videoPromptView);
 	}
 
 	@Override
@@ -75,16 +73,19 @@ public class PlayVideoFragment extends BaseContentFragment {
 			@Override
 			public void onPrepared(MediaPlayer mediaPlayer) {
 				mediaPlayer.setPlaybackSpeed(1.0f);
-				mCacheLayout.setVisibility(View.GONE);
+				mVideoPromptView.hide();
 			}
 		});
 		mVideoView.setOnErrorListener(new OnErrorListener(){
 
 			@Override
 			public boolean onError(MediaPlayer mp, int what, int extra) {
-				if(what==MediaPlayer.MEDIA_ERROR_UNKNOWN){
-					mVideoView.start();
-					return true;
+				Log.d("onError what="+what+",extra="+extra);
+				switch(what){
+					case MediaPlayer.MEDIA_ERROR_UNKNOWN:
+						mp.reset();
+						mVideoPromptView.showError();
+						return true;
 				}
 				return false;
 			}
@@ -94,11 +95,13 @@ public class PlayVideoFragment extends BaseContentFragment {
 
 			@Override
 			public boolean onInfo(MediaPlayer mp, int what, int extra) {
+				Log.d(" onInfo what="+what+",extra="+extra);
 				switch(what){
 					case MediaPlayer.MEDIA_INFO_BUFFERING_START:
-						mCacheLayout.setVisibility(View.VISIBLE);
+						if(!mp.isPlaying())
+						mVideoPromptView.showCaching(0);
 					case MediaPlayer.MEDIA_INFO_BUFFERING_END:
-						mCacheLayout.setVisibility(View.GONE);
+						mVideoPromptView.hide();
 				}
 				return false;
 			}
@@ -108,16 +111,26 @@ public class PlayVideoFragment extends BaseContentFragment {
 
 			@Override
 			public void onBufferingUpdate(MediaPlayer mp, int percent) {
-				mBufferPercentTv.setText(percent+"%");
+				if(!mp.isPlaying())
+				mVideoPromptView.showCaching(percent);
+			}
+			
+		});
+		mVideoPromptView.setRetryListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View view) {
+				playVideo(station.getUrl());
 			}
 			
 		});
 		playVideo(station.getUrl());
 	}
 	public void playVideo(String url){
+		Log.d("url="+url);
+		url=url.replace("ipad", "iphone");
 		mVideoView.setVideoPath(url);
-		mVideoView.requestFocus();
-		mCacheLayout.setVisibility(View.VISIBLE);
+		mVideoPromptView.showLoading();
 	}
 
 	@Override

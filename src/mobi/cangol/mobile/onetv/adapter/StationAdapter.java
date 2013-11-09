@@ -19,6 +19,7 @@ import mobi.cangol.mobile.onetv.R;
 import mobi.cangol.mobile.onetv.db.model.Station;
 import mobi.cangol.mobile.onetv.view.ArrayAdapter;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -61,11 +62,15 @@ public class StationAdapter extends ArrayAdapter<Station>{
 		
 		holder.name.setText(item.getName());
 		if(isLeft){
+			holder.name.setTextColor(Color.WHITE);
+			holder.icon.setImageResource(R.drawable.ic_station);
 			holder.desc.setVisibility(View.GONE);
 			holder.star.setVisibility(View.GONE);
+		}else{
+			holder.desc.setVisibility(View.GONE);
+			holder.star.setVisibility(View.VISIBLE);
 		}
 		holder.desc.setText(item.getDesc());
-		holder.icon.setImageResource(R.drawable.ic_launcher);
 		holder.star.setOnClickListener(new OnClickListener(){
 
 			@Override

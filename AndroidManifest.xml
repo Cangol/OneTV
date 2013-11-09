@@ -13,7 +13,7 @@
      <!-- 渠道信息 -->
     <meta-data android:name="CHANNEL" android:value="${channel_id}"/>
      <!-- build日期 -->
-     <meta-data android:name="BUILD_DATE" android:value="20131027"/>
+     <meta-data android:name="BUILD_DATE" android:value="20131109"/>
     <application
         android:icon="@drawable/ic_launcher"
         android:name=".MobileApplication"
@@ -36,12 +36,7 @@
         </activity>
          <activity
             android:name=".PlayerActivity"
-            android:launchMode="singleInstance"
             android:screenOrientation="landscape" />
-         <activity
-            android:name=".RemindActivity"
-            android:theme="@style/dialog"/>
-         <receiver android:name=".AlarmReceiver" android:process=":remote" />  
     </application>
 
 </manifest>
