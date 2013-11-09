@@ -80,7 +80,6 @@ public class PlayVideoFragment extends BaseContentFragment {
 
 			@Override
 			public boolean onError(MediaPlayer mp, int what, int extra) {
-				Log.d("onError what="+what+",extra="+extra);
 				switch(what){
 					case MediaPlayer.MEDIA_ERROR_UNKNOWN:
 						mp.reset();
@@ -95,7 +94,6 @@ public class PlayVideoFragment extends BaseContentFragment {
 
 			@Override
 			public boolean onInfo(MediaPlayer mp, int what, int extra) {
-				Log.d(" onInfo what="+what+",extra="+extra);
 				switch(what){
 					case MediaPlayer.MEDIA_INFO_BUFFERING_START:
 						if(!mp.isPlaying())
@@ -127,8 +125,8 @@ public class PlayVideoFragment extends BaseContentFragment {
 		playVideo(station.getUrl());
 	}
 	public void playVideo(String url){
-		Log.d("url="+url);
 		url=url.replace("ipad", "iphone");
+		Log.d("play url="+url);
 		mVideoView.setVideoPath(url);
 		mVideoPromptView.showLoading();
 	}

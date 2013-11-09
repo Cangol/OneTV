@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import mobi.cangol.mobile.onetv.log.Log;
 import mobi.cangol.mobile.onetv.utils.Contants;
 
 import android.app.Activity;
@@ -39,6 +40,7 @@ public class MobileApplication  extends Application {
 		public void onCreate() {
 			super.onCreate();
 			init();
+			Log.setLogLevelFormat(android.util.Log.ERROR, true);
 		}
 		public void init(){
 			activityManager=new ArrayList<Activity>();

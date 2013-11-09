@@ -12,7 +12,7 @@
         android:drawableTop="@drawable/ic_action_error"
         android:textSize="14sp"
         android:textColor="#333333"
-        android:drawablePadding="4dip"
+        android:drawablePadding="2dip"
         android:gravity="center" />
 	
 </LinearLayout>
