@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:drawableTop="@drawable/ic_action_replay"
         android:drawablePadding="4dip"
+         android:textSize="14sp"
+        android:textColor="#333333"
         android:gravity="center" />
 	
 </LinearLayout>

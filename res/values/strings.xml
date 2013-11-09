@@ -2,8 +2,8 @@
 <resources>
 
     <string name="app_name">OneTv</string>
- 	<string name="common_empty">暂无数据！</string>
-    <string name="common_retry">获取数据失败,重试！</string>
+ 	<string name="common_empty">暂无数据!</string>
+    <string name="common_retry">获取数据失败,重试!</string>
     <string name="common_error">很抱歉，暂时无法获取相关数据!</string>
     <string name="common_loading">加载中&#8230;&#8230;</string>
     <string name="common_loading_more">正在加载更多&#8230;&#8230;</string>
@@ -14,7 +14,7 @@
     <string name="favorites">收藏</string>
     <string name="video_loading">加载中&#8230;&#8230;</string>
     <string name="video_caching">缓冲中&#8230;&#8230;</string>
-    <string name="video_error">播放错误，点击重试！</string>
+    <string name="video_error">播放错误，点击重试!</string>
     
      <string name="add_favorite_success">添加收藏成功</string>
      <string name="del_favorite_success">删除收藏成功</string>
