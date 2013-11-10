@@ -1,45 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">OneTv</string>
- 	<string name="common_empty">暂无数据!</string>
+    <string name="app_name">One TV</string>
+    <string name="app_dev">Cangol Mobile</string>
+    <string name="common_empty">暂无数据!</string>
     <string name="common_retry">获取数据失败,重试!</string>
     <string name="common_error">很抱歉，暂时无法获取相关数据!</string>
     <string name="common_loading">加载中&#8230;&#8230;</string>
     <string name="common_loading_more">正在加载更多&#8230;&#8230;</string>
     <string name="menu_station">电视台</string>
-     <string name="menu_favorites">我的收藏</string>
+    <string name="menu_favorites">我的收藏</string>
     <string name="menu_remind">播放提醒</string>
     <string name="menu_history">播放历史</string>
     <string name="favorites">收藏</string>
     <string name="video_loading">加载中&#8230;&#8230;</string>
     <string name="video_caching">缓冲中&#8230;&#8230;</string>
     <string name="video_error">播放错误，点击重试!</string>
-    
-     <string name="add_favorite_success">添加收藏成功</string>
-     <string name="del_favorite_success">删除收藏成功</string>
-     <string name="action_play">播放</string>
+    <string name="add_favorite_success">添加收藏成功</string>
+    <string name="del_favorite_success">删除收藏成功</string>
+    <string name="action_play">播放</string>
     <string name="action_delete">删除</string>
     <string name="test">test</string>
     <string name="btn_play">播放</string>
     <string name="btn_cancel">取消</string>
-    	<string name="exit_tips">请再一次Back键退出!</string>
-<!--vitamio  -->
-	<string name="vitamio_library_app_name">VitamioLibrary</string>
+    <string name="exit_tips">请再一次Back键退出!</string>
+    <string name="menu_setting">设置</string>
+    <string name="menu_about">关于</string>
+    <string name="menu_rating">评分</string>
+      <string name="program_guide">节目预告</string>
+    <!-- vitamio -->
+    <string name="vitamio_library_app_name">VitamioLibrary</string>
     <string name="vitamio_init_decoders">Initializing decoders…</string>
     <string name="permission_group_tools_label">Vitamio tools</string>
     <string name="permission_group_tools_description">Access Vitamio package and resources.</string>
     <string name="permission_receive_messages_label">Receive Vitamio messages</string>
     <string name="permission_receive_messages_description">Receive all broadcasts from Vitamio service.</string>
     <string name="permission_write_providers_label">Write Vitamio providers</string>
-    <string name="permission_write_providers_description">Delete, update or create new items in Vitamio providers.
-    </string>
+    <string name="permission_write_providers_description">Delete, update or create new items in Vitamio providers.</string>
     <string name="VideoView_error_title">Cannot play video</string>
-    <string name="VideoView_error_text_invalid_progressive_playback">Sorry, this video is not valid for streaming tothis device.
-    </string>
+    <string name="VideoView_error_text_invalid_progressive_playback">Sorry, this video is not valid for streaming tothis device.</string>
     <string name="VideoView_error_text_unknown">Sorry, this video cannot be played.</string>
     <string name="VideoView_error_button">OK</string>
     <string name="mediacontroller_play_pause">Play/Pause</string>
-    
-    
+
 </resources>

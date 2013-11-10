@@ -44,6 +44,15 @@
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_star_unselected" />
         </LinearLayout>
+        <TextView
+            	android:textColor="#ffffff"
+                android:textSize="16sp"
+       		 	android:textStyle="bold"
+       		 	android:background="#555555"
+       		 	android:padding="8dp"
+       		 	android:text="@string/program_guide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         <mobi.cangol.mobile.onetv.view.PromptView
             android:id="@+id/promptView"
             android:layout_width="match_parent"

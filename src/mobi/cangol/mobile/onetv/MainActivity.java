@@ -17,9 +17,15 @@
 package mobi.cangol.mobile.onetv;
 
 import mobi.cangol.mobile.onetv.base.BaseSlidingFragmentActivity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 public class MainActivity extends BaseSlidingFragmentActivity {
@@ -53,10 +59,39 @@ public class MainActivity extends BaseSlidingFragmentActivity {
 	protected void initViews(Bundle savedInstanceState) {
 	}
 
-
 	@Override
 	protected void initData(Bundle savedInstanceState) {
 		
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.home_menu, menu);
+	    return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+			switch (item.getItemId()) {
+	        case R.id.menu_about:
+	        	this.setContentFragment(AboutusFragment.class, "AboutusFragment", null);
+	            return true;
+	        case R.id.menu_rating:
+	        	toRating();
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+	private void toRating(){
+		Uri uri = Uri.parse("market://details?id=" + this.getPackageName());
+		Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+		try{
+			startActivity(intent);
+		}catch(ActivityNotFoundException e){
+			Toast.makeText(this, "Couldn't launch the market !", Toast.LENGTH_SHORT).show();
+		}
 	}
 	@Override
 	public void onBack() {
