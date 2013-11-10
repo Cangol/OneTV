@@ -18,6 +18,8 @@ package mobi.cangol.mobile.onetv;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.analytics.tracking.android.MapBuilder;
+
 import mobi.cangol.mobile.onetv.adapter.UserFavoriteAdapter;
 import mobi.cangol.mobile.onetv.adapter.UserFavoriteAdapter.OnStarClickListener;
 import mobi.cangol.mobile.onetv.base.BaseContentFragment;
@@ -97,6 +99,7 @@ public class UserFavoriteFragment extends BaseContentFragment {
 					int position, long id) {
 				UserFavorite item=dataAdapter.getItem(position);
 				playStation(item);
+				tracker.send(MapBuilder.createEvent("ui_action", "Click", "item", null).build());
 			}
 			
 		});
@@ -106,6 +109,7 @@ public class UserFavoriteFragment extends BaseContentFragment {
 			public void onClick(View v, int position) {
 				UserFavorite item=dataAdapter.getItem(position);
 				showPopuMenu(item,v);
+				tracker.send(MapBuilder.createEvent("ui_action", "Click", "item action", null).build());
 			}
 			
 		});
@@ -120,6 +124,7 @@ public class UserFavoriteFragment extends BaseContentFragment {
 			public void loadMoreData() {
 					getUserFavoriteList((page-1)*pageSize,pageSize);
 					page++;
+					tracker.send(MapBuilder.createEvent("ui_action", "scroll", "list", null).build());
 				}
 		});
 	}
@@ -133,10 +138,12 @@ public class UserFavoriteFragment extends BaseContentFragment {
 				switch(item.getItemId()){
 				case R.id.menu_action_play:
 					playStation(userFavorite);
+					tracker.send(MapBuilder.createEvent("ui_action", "Click", "menu play", null).build());
 					break;
 				case R.id.menu_action_delete:
 					userFavoriteService.delete(userFavorite.get_id());
 					dataAdapter.remove(userFavorite);
+					tracker.send(MapBuilder.createEvent("ui_action", "Click", "menu del", null).build());
 					break;
 				}
 				mPopupMenu.dismiss();

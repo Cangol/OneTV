@@ -58,6 +58,7 @@ import com.cangol.mobile.http.AsyncHttpClient;
 import com.cangol.mobile.http.AsyncHttpResponseHandler;
 import com.cangol.mobile.http.RequestParams;
 import com.cangol.mobile.utils.TimeUtils;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /**
  * @Description StationFragment.java 
@@ -130,6 +131,7 @@ public class StationProgramFragment extends BaseContentFragment {
 			    }else{
 			    	Log.d("PlayTime 格式错误!");
 			    }
+			    tracker.send(MapBuilder.createEvent("ui_action", "Click", "item action", null).build());
 			}
 			
 		});
@@ -142,13 +144,14 @@ public class StationProgramFragment extends BaseContentFragment {
 
 			@Override
 			public void loadMoreData() {
-				}
+			}
 		});
 		logoImg.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
 				playStation(station);
+				tracker.send(MapBuilder.createEvent("ui_action", "Click", "logo", null).build());
 			}
 			
 		});
@@ -171,6 +174,7 @@ public class StationProgramFragment extends BaseContentFragment {
 						favoriteImg.setImageResource(R.drawable.ic_star_unselected);
 						Toast.makeText(getActivity(), R.string.del_favorite_success, Toast.LENGTH_SHORT).show();
 					}
+					tracker.send(MapBuilder.createEvent("ui_action", "Click", "favorite", null).build());
 			}
 			
 		});

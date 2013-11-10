@@ -27,13 +27,14 @@ import mobi.cangol.mobile.onetv.api.ApiHttpResult;
 import mobi.cangol.mobile.onetv.base.BaseContentFragment;
 import mobi.cangol.mobile.onetv.db.StationService;
 import mobi.cangol.mobile.onetv.db.model.Station;
-import mobi.cangol.mobile.onetv.log.Log;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter.OnLoadCallback;
 import mobi.cangol.mobile.onetv.view.PromptView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.google.analytics.tracking.android.MapBuilder;
 
 import android.content.Context;
 import android.content.Intent;
@@ -117,6 +118,7 @@ public class StationListFragment extends BaseContentFragment {
 				}else{
 					toStationProgram(item);
 				}
+				 tracker.send(MapBuilder.createEvent("ui_action", "Click", "item", null).build());
 			}
 			
 		});
@@ -130,6 +132,7 @@ public class StationListFragment extends BaseContentFragment {
 				}else{
 					playStationA(item);
 				}
+				 tracker.send(MapBuilder.createEvent("ui_action", "Click", "item action", null).build());
 			}
 			
 		});
@@ -144,6 +147,7 @@ public class StationListFragment extends BaseContentFragment {
 			public void loadMoreData() {
 				    page++;
 					getStationList((page-1)*pageSize,pageSize);
+					tracker.send(MapBuilder.createEvent("ui_action", "scroll", "list", null).build());
 		     }
 		});
 	}

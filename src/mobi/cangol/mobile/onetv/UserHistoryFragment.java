@@ -18,6 +18,8 @@ package mobi.cangol.mobile.onetv;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.analytics.tracking.android.MapBuilder;
+
 import mobi.cangol.mobile.onetv.adapter.UserHistoryAdapter;
 import mobi.cangol.mobile.onetv.adapter.UserHistoryAdapter.OnStarClickListener;
 import mobi.cangol.mobile.onetv.base.BaseContentFragment;
@@ -100,6 +102,7 @@ public class UserHistoryFragment extends BaseContentFragment {
 					int position, long id) {
 				UserHistory item=dataAdapter.getItem(position);
 				playStation(item);
+				tracker.send(MapBuilder.createEvent("ui_action", "Click", "item", null).build());
 			}
 			
 		});
@@ -109,6 +112,7 @@ public class UserHistoryFragment extends BaseContentFragment {
 			public void onClick(View v, int position) {
 				UserHistory item=dataAdapter.getItem(position);
 				showPopuMenu(item,v);
+				tracker.send(MapBuilder.createEvent("ui_action", "Click", "item action", null).build());
 			}
 			
 		});
@@ -123,6 +127,7 @@ public class UserHistoryFragment extends BaseContentFragment {
 			public void loadMoreData() {
 					getUserHistoryList((page-1)*pageSize,pageSize);
 					page++;
+					tracker.send(MapBuilder.createEvent("ui_action", "scroll", "list", null).build());
 				}
 		});
 	}
@@ -136,10 +141,12 @@ public class UserHistoryFragment extends BaseContentFragment {
 				switch(item.getItemId()){
 				case R.id.menu_action_play:
 					playStation(userHistory);
+					tracker.send(MapBuilder.createEvent("ui_action", "Click", "menu play", null).build());
 					break;
 				case R.id.menu_action_delete:
 					userHistoryService.delete(userHistory.get_id());
 					dataAdapter.remove(userHistory);
+					tracker.send(MapBuilder.createEvent("ui_action", "Click", "menu del", null).build());
 					break;
 				}
 				mPopupMenu.dismiss();

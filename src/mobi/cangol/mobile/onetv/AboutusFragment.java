@@ -15,15 +15,14 @@
  */
 package mobi.cangol.mobile.onetv;
 
-import com.cangol.mobile.utils.DeviceInfo;
-
 import mobi.cangol.mobile.onetv.base.BaseContentFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.cangol.mobile.utils.DeviceInfo;
 
 /**
  * @Description LeftMenuFragment.java 

@@ -17,6 +17,8 @@ package mobi.cangol.mobile.onetv;
 
 import java.util.List;
 
+import com.google.analytics.tracking.android.MapBuilder;
+
 import mobi.cangol.mobile.onetv.adapter.UserRemindAdapter;
 import mobi.cangol.mobile.onetv.adapter.UserRemindAdapter.OnActionClickListener;
 import mobi.cangol.mobile.onetv.base.BaseContentFragment;
@@ -89,6 +91,7 @@ public class UserRemindFragment extends BaseContentFragment {
 					int position, long id) {
 				UserRemind item=dataAdapter.getItem(position);
 				playStation(item);
+				tracker.send(MapBuilder.createEvent("ui_action", "Click", "item", null).build());
 			}
 			
 		});
@@ -98,6 +101,7 @@ public class UserRemindFragment extends BaseContentFragment {
 			public void onClick(View v, int position) {
 				UserRemind item=dataAdapter.getItem(position);
 				showPopuMenu(item,v);
+				tracker.send(MapBuilder.createEvent("ui_action", "Click", "item action", null).build());
 			}
 			
 		});
@@ -112,6 +116,7 @@ public class UserRemindFragment extends BaseContentFragment {
 			public void loadMoreData() {
 					getUserRemindList((page-1)*pageSize,pageSize);
 					page++;
+					tracker.send(MapBuilder.createEvent("ui_action", "scroll", "list", null).build());
 				}
 		});
 		initData();
@@ -126,10 +131,12 @@ public class UserRemindFragment extends BaseContentFragment {
 				switch(item.getItemId()){
 				case R.id.menu_action_play:
 					playStation(userRemind);
+					tracker.send(MapBuilder.createEvent("ui_action", "Click", "menu play", null).build());
 					break;
 				case R.id.menu_action_delete:
 					userRemindService.delete(userRemind.get_id());
 					dataAdapter.remove(userRemind);
+					tracker.send(MapBuilder.createEvent("ui_action", "Click", "menu del", null).build());
 					break;
 				}
 				mPopupMenu.dismiss();

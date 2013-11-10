@@ -15,6 +15,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.WindowManager;
+
+import com.google.analytics.tracking.android.EasyTracker;
 /**
  * @Description:
  * @version $Revision: 1.0 $
@@ -107,6 +109,7 @@ public abstract class BaseSlidingFragmentActivity extends SlidingFragmentActivit
 	protected void onStart() {
 		super.onStart();
 		if(LIFECYCLE)Log.v(TAG, "onStart");
+		 EasyTracker.getInstance(this).activityStart(this); 
 	}
 
 	@Override
@@ -131,6 +134,7 @@ public abstract class BaseSlidingFragmentActivity extends SlidingFragmentActivit
 	protected void onStop() {
 		super.onStop();
 		if(LIFECYCLE)Log.v(TAG, "onStop");
+		 EasyTracker.getInstance(this).activityStop(this);
 	}
 
 	@Override
