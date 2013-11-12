@@ -34,9 +34,9 @@ public class PlayerActivity extends BaseSlidingFragmentActivity {
 		super.onCreate(savedInstanceState);
 		getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN ,
 	              WindowManager.LayoutParams. FLAG_FULLSCREEN);
-		setContentView(R.layout.activity_play);
 		if (!LibsChecker.checkVitamioLibs(this))
 			return;
+		setContentView(R.layout.activity_play);
 		if(this.getIntent()!=null){
 			station=(Station) this.getIntent().getSerializableExtra("station");
 		}

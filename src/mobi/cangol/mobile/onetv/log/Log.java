@@ -17,7 +17,7 @@ package mobi.cangol.mobile.onetv.log;
 
 
 public class Log {
-	private  static int LEVEL = android.util.Log.VERBOSE;
+	private  static int LEVEL = android.util.Log.WARN;
 
 	private  static boolean FORMAT=false;
 	

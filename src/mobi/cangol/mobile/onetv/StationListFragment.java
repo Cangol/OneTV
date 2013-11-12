@@ -78,6 +78,7 @@ public class StationListFragment extends BaseContentFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		//View v = inflater.inflate("left".equals(position)?R.layout.fragment_list:R.layout.fragment_list_ad, container,false);
 		View v = inflater.inflate(R.layout.fragment_list, container,false);
 		findViews(v);
 		initViews(savedInstanceState);

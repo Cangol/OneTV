@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="mobi.cangol.mobile.onetv"
-    android:versionCode="2"
-    android:versionName="1.0.1" >
+    android:versionCode="3"
+    android:versionName="1.0.3" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
+        android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:name=".MobileApplication"
          android:theme="@style/AppTheme" 
@@ -28,6 +29,7 @@
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
+             android:configChanges="keyboard|orientation"
             android:name=".MainActivity">
              <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,6 +39,8 @@
          <activity
             android:name=".PlayerActivity"
             android:screenOrientation="landscape" />
+         <activity android:name="com.google.ads.AdActivity"
+              android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
     </application>
 
 </manifest>

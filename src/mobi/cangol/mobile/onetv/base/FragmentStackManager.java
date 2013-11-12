@@ -164,6 +164,7 @@ public class FragmentStackManager {
 			}
 		}
 		stack.clear();
+		tagStack.clear();
 	}
 	public BaseFragment peek() {
 		return stack.peek();

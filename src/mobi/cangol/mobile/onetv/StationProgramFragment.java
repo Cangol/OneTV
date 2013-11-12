@@ -31,7 +31,6 @@ import mobi.cangol.mobile.onetv.db.UserRemindService;
 import mobi.cangol.mobile.onetv.db.model.Program;
 import mobi.cangol.mobile.onetv.db.model.Station;
 import mobi.cangol.mobile.onetv.db.model.UserFavorite;
-import mobi.cangol.mobile.onetv.db.model.UserHistory;
 import mobi.cangol.mobile.onetv.db.model.UserRemind;
 import mobi.cangol.mobile.onetv.log.Log;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
@@ -43,7 +42,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -67,7 +65,6 @@ import com.google.analytics.tracking.android.MapBuilder;
  */
 public class StationProgramFragment extends BaseContentFragment {
 	private TextView nameTv;
-	private TextView descTv;
 	private ImageView logoImg;
 	private ImageView favoriteImg;
 	private ListView listView;
@@ -103,7 +100,6 @@ public class StationProgramFragment extends BaseContentFragment {
 	@Override
 	protected void findViews(View view) {
 		nameTv=(TextView) view.findViewById(R.id.station_name);
-		descTv=(TextView) view.findViewById(R.id.station_desc);
 		logoImg=(ImageView) view.findViewById(R.id.station_logo);
 		favoriteImg=(ImageView) view.findViewById(R.id.station_favorite);
 		listView= (ListView) view.findViewById(R.id.listview);
@@ -146,6 +142,15 @@ public class StationProgramFragment extends BaseContentFragment {
 			public void loadMoreData() {
 			}
 		});
+		nameTv.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				playStation(station);
+				tracker.send(MapBuilder.createEvent("ui_action", "Click", "name", null).build());
+			}
+			
+		});
 		logoImg.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -179,8 +184,6 @@ public class StationProgramFragment extends BaseContentFragment {
 			
 		});
 		nameTv.setText(station.getName());
-		if(!TextUtils.isEmpty(station.getDesc()))
-		descTv.setText(station.getDesc());
 		
 	}
 	@Override
@@ -252,6 +255,7 @@ public class StationProgramFragment extends BaseContentFragment {
 				CommSAXParserUtil parserUtil=new CommSAXParserUtil();
 				WebServicesFeed feed=(WebServicesFeed)parserUtil.getFeed(CommSAXParserUtil.WEBSERVICES_HANDLER, response);
 				if(feed==null){
+					listViewTips.showError();
 					return;
 				}
 				String[] temp=new String[3];
@@ -269,7 +273,7 @@ public class StationProgramFragment extends BaseContentFragment {
 			public void onFailure(Throwable error, String content) {
 				super.onFailure(error, content);
 				Log.d(" onFailure:"+content);
-				listViewTips.showEmpty(content);
+				listViewTips.showError();
 			}
 
 			@Override
