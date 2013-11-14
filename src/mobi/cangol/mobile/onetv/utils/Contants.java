@@ -5,6 +5,7 @@ public class Contants {
 	public static final boolean LIFECYCLE=false;
 	public static final boolean FREEUSER=false;
 	public static final int DATABASE_VERSION=1;
+	public static final int TVJSON_VERSION=2;
 	public static final String DATABASE_NAME="OneTv";
 	public static final String SHARED="OneTv";
 	public static final String TAG="OneTv_";

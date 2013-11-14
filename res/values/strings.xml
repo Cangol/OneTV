@@ -27,7 +27,9 @@
     <string name="menu_setting">设置</string>
     <string name="menu_about">关于</string>
     <string name="menu_rating">评分</string>
-      <string name="program_guide">节目预告</string>
+    <string name="program_guide">节目预告</string>
+    <string name="copyright">版权说明:\n应用所包含的视频数据均来自网络免费获取，应用中出现的视频数据的所有权均归其所有者。</string>
+    
     <!-- vitamio -->
     <string name="vitamio_library_app_name">VitamioLibrary</string>
     <string name="vitamio_init_decoders">Initializing decoders…</string>

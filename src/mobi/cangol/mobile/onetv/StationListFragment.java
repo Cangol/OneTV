@@ -27,6 +27,7 @@ import mobi.cangol.mobile.onetv.api.ApiHttpResult;
 import mobi.cangol.mobile.onetv.base.BaseContentFragment;
 import mobi.cangol.mobile.onetv.db.StationService;
 import mobi.cangol.mobile.onetv.db.model.Station;
+import mobi.cangol.mobile.onetv.utils.Contants;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter;
 import mobi.cangol.mobile.onetv.view.LoadMoreAdapter.OnLoadCallback;
 import mobi.cangol.mobile.onetv.view.PromptView;
@@ -64,7 +65,7 @@ public class StationListFragment extends BaseContentFragment {
 	private int pageSize=10;
 	private StationService stationService;
 	private String position;
-	private boolean tvIsInit=false;
+	private int tvJsonVersion;
 	private SharedPreferences sp ;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,7 @@ public class StationListFragment extends BaseContentFragment {
 		stationService=new StationService(this.getActivity());
 		position=this.getArguments().getString("position");
 		 sp = this.getActivity().getSharedPreferences("OneTv", Context.MODE_PRIVATE);
-		tvIsInit=sp.getBoolean("tv", false);
+		 tvJsonVersion=sp.getInt("tvJsonVersion",0);
 	}
 
 	@Override
@@ -174,10 +175,9 @@ public class StationListFragment extends BaseContentFragment {
 	}
 	@Override
 	protected void initData(Bundle savedInstanceState) {
-		if(!tvIsInit){
+		if(tvJsonVersion!=Contants.TVJSON_VERSION){
 			initTvData();
-			sp.edit().putBoolean("tv", true).commit();
-			tvIsInit=true;
+			return;
 		}
 		if(savedInstanceState!=null)
 			mItemList=(ArrayList<Station>) savedInstanceState.getSerializable("items");
@@ -226,6 +226,7 @@ public class StationListFragment extends BaseContentFragment {
 		for(Station station:list){
 			stationService.save(station);
 		}
+		sp.edit().putInt("tvJsonVersion", Contants.TVJSON_VERSION).commit();
 	}
 	protected void initTvData() {
 		new AsyncTask<Void,Void,Void>(){
@@ -244,6 +245,7 @@ public class StationListFragment extends BaseContentFragment {
 			@Override
 			protected void onPostExecute(Void result) {
 				super.onPostExecute(result);
+				getStationList((page-1)*pageSize,pageSize);
 			}
 		}.execute();
 		
