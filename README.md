@@ -3,6 +3,9 @@ OneTV
 
 one TV app
 
+Google Play
+-----------
+https://play.google.com/store/apps/details?id=mobi.cangol.mobile.onetv
 
 Developed By
 ============
