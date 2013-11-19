@@ -8,6 +8,7 @@
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+   <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
@@ -37,7 +38,13 @@
         </activity>
          <activity
             android:name=".PlayerActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
             android:screenOrientation="landscape" />
+         <activity
+            android:name=".RemindActivity"
+            android:theme="@style/dialog" 
+            android:configChanges="orientation|keyboardHidden|navigation" />
+		<receiver android:name=".AlarmReceiver" android:process=":remote" />  
          <activity android:name="com.google.ads.AdActivity"
               android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
     </application>

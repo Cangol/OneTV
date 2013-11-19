@@ -40,7 +40,7 @@ public class MobileApplication  extends Application {
 		public void onCreate() {
 			super.onCreate();
 			init();
-			Log.setLogLevelFormat(android.util.Log.ERROR, true);
+			Log.setLogLevelFormat(android.util.Log.VERBOSE, true);
 		}
 		public void init(){
 			activityManager=new ArrayList<Activity>();
